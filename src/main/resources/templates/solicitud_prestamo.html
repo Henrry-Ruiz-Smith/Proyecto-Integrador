@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Encabezado de la página -->
+</head>
+<body>
+    <!-- Formulario de solicitud de préstamo -->
+    <form th:action="@{/prestamos/solicitar}" th:object="${prestamo}" method="post">
+        <!-- Campos del formulario -->
+        <input type="text" th:field="*{monto}" placeholder="Monto del préstamo" required>
+        <input type="text" th:field="*{plazo}" placeholder="Plazo de pago" required>
+        <!-- Otros campos para la solicitud de préstamo, como motivo, etc. -->
+        <button type="submit">Solicitar préstamo</button>
+    </form>
+</body>
+</html>
