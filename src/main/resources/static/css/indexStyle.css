@@ -1,0 +1,14 @@
+html, body {
+    font-family: 'Roboto', sans-serif;
+}
+body {
+    /* Establece la imagen de fondo */
+    background-image: url(https://img.freepik.com/vector-gratis/fondo-futurista-degradado-geometrico_23-2149116406.jpg);
+
+    /* Ajusta el tamaño y la posición de la imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    
+    /* Establece un color de fondo de respaldo */
+    background-color: #f8f9fa; /* Cambia esto según tus preferencias */
+}
