@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Usuario</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap">
+
+    <link href="/css/indexStyle.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">CRUD</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a th:href="@{/usuarios/principal}" class="nav-link">Listar Usuarios</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+	<span class="navbar-text me-3" th:text="${session.usuario.nombre + ' ' + session.usuario.apellidos + ' | ' + session.usuario.rol.nombre}"></span>
+	<a th:href="@{/logout}" class="btn btn-danger">
+	    <i class="fas fa-sign-out-alt"></i>
+	</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+    <div class="row justify-content-center" style="height: 100vh; margin-top: 50px;">
+        <div class="col-md-5">
+            <div class="card p-2">
+                <div class="card-body">
+					<h2 class="card-title mt-4">
+					    <i class="fas fa-user me-2"></i>
+					    <span th:text="${tituloAccion}"></span>
+					</h2>
+
+					<form th:action="@{/usuarios/guardarUsuario}" th:object="${usuario}" method="post" class="mt-4">
+					    <div class="mb-3">
+							<input type="hidden" class="form-control" th:field="*{id}" required>
+					        <label for="nombre" class="form-label">Nombre</label>
+					        <input type="text" class="form-control" th:field="*{nombre}" required>
+					    </div>
+					    <div class="mb-3">
+					        <label for="apellidos" class="form-label">Apellidos</label>
+					        <input type="text" class="form-control" th:field="*{apellidos}" required>
+					    </div>
+						<div class="mb-3">
+						    <label for="contrasena" class="form-label">Contraseña</label>
+						    <div class="input-group">
+						        <input type="text" class="form-control" id="contrasena" th:field="*{contrasena}" required>
+						        <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility()">Mostrar</button>
+						    </div>
+						</div>
+					    <div class="mb-3">
+					        <label for="telefono" class="form-label">Teléfono</label>
+					        <input type="text" class="form-control" th:field="*{telefono}" required>
+					    </div>
+					    <div class="mb-3">
+					        <label for="correo" class="form-label">Correo</label>
+					        <input type="email" class="form-control" th:field="*{correo}" required>
+					    </div>
+					    <div class="mb-3">
+					        <label for="username" class="form-label">Username</label>
+					        <input type="text" class="form-control" th:field="*{username}" required>
+					    </div>
+					    <div class="mb-3">
+					        <label for="rol" class="form-label">Rol</label>
+					        <select class="form-select" th:field="*{rol}">
+					            <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}"></option>
+
+					        </select>
+					    </div>
+					    <button type="submit" class="btn btn-primary" th:text="${botonAccion}"></button>
+
+					</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
