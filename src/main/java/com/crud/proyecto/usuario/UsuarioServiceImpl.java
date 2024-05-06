@@ -93,13 +93,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public void registrar(Usuario usuario) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'registrar'");
     }
 
     @Override
     public List<Usuario> listarUsuariosPorIdRol(int idRol) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'listarUsuariosPorIdRol'");
     }
 }
