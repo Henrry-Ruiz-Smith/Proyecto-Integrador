@@ -7,9 +7,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.crud.proyecto.jefeprestamista.JefePrestamista;
+import com.crud.proyecto.jefeprestamista.JefePrestamistaPK;
+import com.crud.proyecto.jefeprestamista.JefePrestamistaRepository;
 import com.crud.proyecto.opcion.Opcion;
+import com.crud.proyecto.permiso.Permiso;
+import com.crud.proyecto.permiso.PermisoPK;
+import com.crud.proyecto.permiso.PermisoRepository;
 import com.crud.proyecto.roles.Rol;
 import com.crud.proyecto.roles.RolRepository;
+import com.crud.proyecto.zona.Zona;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
@@ -19,6 +26,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Autowired
     private RolRepository rolRepository;
+    @Autowired
+    private PermisoRepository permisoRepository;
+    @Autowired
+    private JefePrestamistaRepository jefePrestamistaRepository;
 
     @Override
     public List<Usuario> findAll() {
@@ -100,7 +111,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public List<Usuario> buscarUsuarioNombreYApellidoXRol(String textoBuscar, int idRol) {
+    public List<Usuario> buscarUsuarioNombreYApellidoXRol(String textoBuscar, Long idRol) {
 
         return usuarioRepository.buscarUsuarioNombreYApellidoXRol(textoBuscar, idRol);
     }
@@ -113,6 +124,44 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public List<Rol> traerRolesDeUsuario(Long idUsuario) {
         return usuarioRepository.traerRolesDeUsuario(idUsuario);
+    }
+
+    @Override
+    public Usuario registrarUsuario(Usuario bean, Long idRol, Usuario usarioSesion, Zona zona) {
+        // Guardar el Usuario
+        Usuario objSalida = usuarioRepository.save(bean);
+        // Configurar UsuarioHasRolPK
+        PermisoPK hasRolPK = new PermisoPK();
+        hasRolPK.setIdUsuario(objSalida.getId());
+        hasRolPK.setIdRol(idRol);
+
+        // Crear y guardar UsuarioHasRol
+        Permiso usuarioHasRol = new Permiso();
+        usuarioHasRol.setUsuarioHasRolPk(hasRolPK);
+        permisoRepository.save(usuarioHasRol);
+
+        // Convertir el valor long a int (teniendo en cuenta la posibilidad de pérdida
+        // de información o desbordamiento)
+        long idRola = idRol.longValue();
+        int idRolInt = (int) idRola;
+
+        switch (idRolInt) {
+            case 3:
+                JefePrestamistaPK hasUsuarioPK = new JefePrestamistaPK();
+                hasUsuarioPK.setIdJefePrestamista(objSalida.getId());
+                hasUsuarioPK.setIdInversionistaCreador(usarioSesion.getId());
+
+                JefePrestamista hasUsuario = new JefePrestamista();
+                hasUsuario.setJefePrestamistaPK(hasUsuarioPK);
+                hasUsuario.setZona(zona);
+                jefePrestamistaRepository.save(hasUsuario);
+                break;
+
+            default:
+                break;
+        }
+
+        return objSalida;
     }
 
 }

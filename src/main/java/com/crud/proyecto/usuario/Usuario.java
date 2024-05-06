@@ -29,7 +29,7 @@ public class Usuario {
     private String correo;
     private String username;
     
-    private int dni;
+    private String dni;
 
     @ManyToOne
     @JoinColumn(name = "rol_id", referencedColumnName = "id")

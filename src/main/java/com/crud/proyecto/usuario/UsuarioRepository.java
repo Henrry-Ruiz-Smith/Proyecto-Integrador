@@ -21,7 +21,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query(value = "SELECT u.* FROM usuarios u  WHERE (u.nombre LIKE %:textBusqueda% OR u.apellidos LIKE %:textBusqueda%) and u.rol_id = :idRol", nativeQuery = true)
     List<Usuario> buscarUsuarioNombreYApellidoXRol(@Param("textBusqueda") String textBusqueda,
-            @Param("idRol") int idRol);
+            @Param("idRol") Long idRol);
 
     @Query("Select p from Opcion p, Acceso pr, Rol r, Permiso u"
             + " where  p.idOpcion = pr.opcion.idOpcion "

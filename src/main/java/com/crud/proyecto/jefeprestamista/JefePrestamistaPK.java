@@ -1,4 +1,4 @@
-package com.crud.proyecto.permiso;
+package com.crud.proyecto.jefeprestamista;
 
 import java.io.Serializable;
 
@@ -11,11 +11,11 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @Embeddable
-public class PermisoPK implements Serializable {
+public class JefePrestamistaPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private Long idUsuario;
-	private Long idRol;
+	
+	private Long idJefePrestamista;
+	private Long idInversionistaCreador;
 
 }

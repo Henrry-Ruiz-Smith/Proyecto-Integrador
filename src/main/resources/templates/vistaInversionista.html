@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     integrity="sha512-..." crossorigin="anonymous" />
+  <!-- NAV MENU-->
   <link href="/css/navMenu.css" rel="stylesheet">
   <script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.bootstrap5.min.css">
@@ -84,10 +85,10 @@
       </div>
       <div class="col-md-2 col-sm-2 col-mb-12">
         <div class="col-md-12">
-          <button type="button" data-toggle="modal" data-target="#id_div_modal_registra" class="btn btn-primary">
+          <a href="registrarJefePrestamista" class="btn btn-primary">
             Nuevo Jefe Prestamista
 
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -103,6 +104,8 @@
                 <th style="width: 20%">DNI</th>
                 <th style="width: 20%">Correo</th>
                 <th style="width:	10%">Telefono</th>
+                <th style="width:	10%">Usarname</th>
+                <th style="width:	10%">Password</th>
                 <th style="width: 5%">Eliminar</th>
               </tr>
             </thead>
@@ -112,164 +115,35 @@
       </div>
     </div>
   </div>
-  <div class="modal" id="id_div_modal_registra">
-    <div class="modal-dialog" style="width: 95%">
-      <div class="modal-content">
-        <div class="modal-header" style="padding: 35px 50px">
-          <button type="button" class="close" data-dismiss="modal">
-            &times;
-          </button>
-          <h4 class="text-center">
-            <span class="glyphicon glyphicon-ok-sign"></span> Registro -
-            Jefe Prestamista
-          </h4>
-        </div>
-        <div class="modal-body" style="padding: 20px 10px">
-          <form id="id_form_registra" accept-charset="UTF-8" class="form-horizontal" method="post">
-            <div class="panel-group" id="steps_reg">
-
-              <!-- INICIO PANEL DATOS PRESTAMISTAS -->
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title text-center">
-                    <a data-toggle="collapse" data-parent="#steps" href="#stepOne">Datos del Jefe
-                      Prestamista</a>
-                  </h4>
-                </div>
-                <div id="stepOne_reg" class="panel-collapse collapse in">
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="form-group col-lg-4">
-                        <label class="col-lg-3 control-label" for="id_reg_nombres">Nombres*</label>
-                        <div class="input-group col-lg-8">
-                          <span class="input-group-addon"><i class="bi bi-boxes"></i></span><input
-                            class="form-control input-sm" type="text" id="id_reg_nombres" name="nombres"
-                            autocomplete="off" placeholder="Nombres" oninput="generarTexto()" />
-                        </div>
-                      </div>
-
-                      <div class="form-group col-lg-4">
-                        <label class="col-lg-3 control-label" for="id_reg_ape_pat">Apellidos</label>
-                        <div class="input-group col-lg-8">
-                          <span class="input-group-addon"><i class="bi bi-boxes"></i></span><input
-                            class="form-control input-sm" type="text" id="id_reg_ape_pat" name="ape_paterno"
-                            autocomplete="off" placeholder="Apellido Paterno" oninput="generarTexto()" />
-                        </div>
-                      </div>
-
-                      <div class="row">
-
-                        <div class="form-group col-lg-4">
-                          <label class="col-lg-3 control-label" for="id_reg_numero_documento">Dni
-                          </label>
-                          <div class="input-group col-lg-8">
-                            <span class="input-group-addon"><i class="bi bi-boxes"></i></span><input
-                              class="form-control input-sm" type="text" id="id_reg_numero_documento"
-                              name="nro_documento" autocomplete="off" maxlength="8"
-                              oninput="generarTexto();generarPassword()" placeholder="N&uacute;mero Dni" />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row ">
-
-
-                        <div class="form-group col-lg-4">
-                          <label class="col-lg-3 control-label" for="id_reg_fijo">Tel&eacute;fono Fijo
-                          </label>
-                          <div class="input-group col-lg-8">
-                            <span class="input-group-addon"><i class="bi bi-boxes"></i></span><input
-                              class="form-control input-sm" type="text" id="id_reg_fijo" name="fijo" autocomplete="off"
-                              placeholder="Telf. Fijo" />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row ">
-                        <div class="form-group col-lg-4">
-                          <label class="col-lg-3 control-label" for="id_reg_numeroSala">Correo
-                          </label>
-                          <div class="input-group col-lg-8">
-                            <span class="input-group-addon"><i class="bi bi-boxes"></i></span><input
-                              class="form-control input-sm" type="email" id="id_reg_email" name="email"
-                              autocomplete="off" placeholder="email@example.com" />
-                          </div>
-                        </div>
-
-
-                      </div>
-
-                      <div class="row ">
-                        <div class="form-group col-lg-4">
-                          <label class="col-lg-3 control-label" for="id_reg_tipoDocumento">Sede*</label>
-                          <div class="input-group col-lg-8">
-                            <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                            <select id="id_reg_sede" name="sedeId" class="form-control input-sm">
-                              <option value="">[Seleccione]</option>
-
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- FIN PANEL DATOS PRESTAMISTAS -->
-                <!-- INICIO PANEL CREACION USUARIO -->
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h4 class="panel-title text-center">
-                      <a data-toggle="collapse" data-parent="#steps" href="#stepOne">Datos de Login - Usuario</a>
-                    </h4>
-                  </div>
-                  <div id="stepOne_reg" class="panel-collapse collapse in">
-                    <div class="panel-body">
-
-                      <div class="row">
-
-                        <div class="form-group col-lg-4">
-                          <label class="col-lg-3 control-label" for="id_reg_nombres">Usuario*</label>
-                          <div class="input-group col-lg-8">
-                            <span class="input-group-addon"><i class="bi bi-boxes"></i></span><input
-                              class="form-control input-sm" type="text" id="id_reg_user_name" name="login"
-                              autocomplete="off" placeholder="Nombre de Usuario" readonly />
-                          </div>
-                        </div>
-                        <div class="form-group col-lg-4">
-                          <label class="col-lg-3 control-label" for="id_reg_nombres">Contrase&ntilde;a*</label>
-                          <div class="input-group col-lg-8">
-                            <span class="input-group-addon"><i class="bi bi-boxes"></i></span><input
-                              class="form-control input-sm" type="text" id="id_reg_user_password" name="password"
-                              autocomplete="off" placeholder="Contrase&ntilde;a" readonly />
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- FIN PANEL CREACION USUARIO -->
-                <div class="row">
-                  <div class="form-group col-md-12">
-                    <div class="col-md-12" align="center">
-                      <button type="button" class="btn btn-primary " id="id_btn_registra">
-                        Guardar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
   </div>
   </div>
-  <script type="text/javascript" src="/js/navMenu.js"></script>
   <script type="text/javascript">
+
+
+    function accionEliminar(id) {
+      $.ajax({
+        type: "POST",
+        url: "eliminacionLogicaPrestamista",
+        data: {
+          "id": id
+        },
+        success: function (data) {
+          agregarGrilla(data.LIST);
+          Swal.fire({
+            title: "Eliminado",
+            text: data.MSG_OK,
+            icon: "warning"
+          });
+        },
+        error: function () {
+          Swal.fire({
+            title: "Oops...?",
+            text: MSG_ERROR,
+            icon: "error"
+          });
+        }
+      });
+    }
     var nombresApellidos = $("#id_txt_nombres").val()
     $.getJSON("buscarJefePrestamista", {
       "nombresApellidos": nombresApellidos,
@@ -292,6 +166,7 @@
           title: data.error
         });
       } else {
+
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -304,8 +179,8 @@
           }
         });
         Toast.fire({
-          icon: "success",
-          title: "Se encontraron coincidencias"
+          icon: "info",
+          title: "Resultados"
         });
         agregarGrilla(data.lista);
       }
@@ -343,6 +218,10 @@
               },
               {
                 data: "telefono"
+              },  {
+                data: "username"
+              },  {
+                data: "contrasena"
               },
               {
                 data: function (row, type, val,
@@ -364,6 +243,7 @@
     }
   </script>
 
+  <script type="text/javascript" src="/js/navMenu.js"></script>
 </body>
 
 </html>
