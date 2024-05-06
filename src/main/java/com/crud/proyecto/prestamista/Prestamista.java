@@ -24,7 +24,7 @@ public class Prestamista {
     private Usuario prestamista;
 
     @ManyToOne
-    @JoinColumn(name = "idInversionistaCreador", nullable = false, insertable = false, updatable = false)
-    private Usuario inversionista;
+    @JoinColumn(name = "idJefePrestamistaCreador", nullable = false, insertable = false, updatable = false)
+    private Usuario jefePrestamista;
 
 }

@@ -16,6 +16,6 @@ public class PrestamistaPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long idPrestamista;
-	private Long idInversionistaCreador;
+	private Long idJefePrestamistaCreador;
 
 }

@@ -123,8 +123,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
         // Obtener los IDs de los usuarios encontrados
         List<Long> idsUsuarios = usuarios.stream().map(Usuario::getId).collect(Collectors.toList());
-
-        int idRolUsuarioEnSesion = (int) idUsuarioCreador.getZona().getId().longValue();
+        System.out.println("ID USUARIOS: "+idsUsuarios);
+        int idRolUsuarioEnSesion = (int) idUsuarioCreador.getRol().getId().longValue();
         List<Usuario> usuariosAsociados = new ArrayList<>();
         switch (idRolUsuarioEnSesion) {
             case 2:
@@ -136,7 +136,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
                 // Obtener los usuarios asociados a los JefePrestamista
                 return prestamistaRepository.findUsuariosByPrestamistaIds(
                         idsUsuarios,
-                        idUsuarioCreador.getZona().getId());
+                        idUsuarioCreador.getZona().getId(),idUsuarioCreador.getId());
             default:
                 return usuariosAsociados;
         }
@@ -184,7 +184,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
             case 4:
                 PrestamistaPK presPK = new PrestamistaPK();
                 presPK.setIdPrestamista(objSalida.getId());
-                presPK.setIdInversionistaCreador(usarioSesion.getId());
+                presPK.setIdJefePrestamistaCreador(usarioSesion.getId());
 
                 Prestamista prestamista = new Prestamista();
                 prestamista.setPrestamistaPK(presPK);

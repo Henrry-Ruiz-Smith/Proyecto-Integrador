@@ -42,4 +42,5 @@ public interface IUsuarioService {
     List<Usuario> validarDni(String dni);
 
     List<Usuario> validarUserName(String username);
+    
 }
