@@ -135,6 +135,91 @@ public class PrestatarioController {
         return map;
     }
 
+    // Registro de de Prestamita
+    @PostMapping("/insertPrestatarioAutonomo")
+    @ResponseBody
+    public Map<?, ?> insertPrestatario(Usuario jp) {
+
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        if (Validacioness.campoVacio(jp.getNombre())) {
+            map.put(msg_error, "nombre vacío");
+            return map;
+        }
+        if (Validacioness.campoVacio(jp.getApellidos())) {
+            map.put(msg_error, " apellidos vacío");
+            return map;
+        }
+
+        if (Validacioness.campoVacio(jp.getDni())) {
+            map.put(msg_error, "Dni vacío");
+            return map;
+        }
+
+        if (!Validacioness.validarDni(jp.getDni())) {
+            map.put(msg_error, "Dni Incorrecto 8 digitos");
+            return map;
+        }
+        List<Usuario> listEmail = usuarioService.validarDni(jp.getDni());
+        if (listEmail.size() > 0) {
+            map.put(msg_error, "El dni ya pertenece a otro usuario");
+            return map;
+        }
+
+        if (Validacioness.campoVacio(jp.getTelefono())) {
+            map.put(msg_error, "telefono vacío");
+            return map;
+        }
+
+        if (Validacioness.campoVacio(jp.getCorreo())) {
+            map.put(msg_error, " E-mail vacío");
+            return map;
+        }
+
+        if (!Validacioness.validarEmail(jp.getCorreo())) {
+            map.put(msg_error, "Email Incorrecto");
+            return map;
+        }
+        if (usuarioService.validarEmail(jp.getCorreo()).size() > 0) {
+            map.put(msg_error, "El correo ya pertenece a otro usuario");
+            return map;
+        }
+        if (jp.getZona().getId() == null) {
+            map.put(msg_error, "Escoge ZonA ");
+            return map;
+        }
+        if (Validacioness.campoVacio(jp.getUsername())) {
+            map.put(msg_error, "Usuario Nombre Vacio");
+            return map;
+        }
+
+        if (usuarioService.validarUserName(jp.getUsername()).size() > 0) {
+            map.put(msg_error, "El nombre de usuario ya pertenece a otro usuario");
+            return map;
+        }
+
+        if (Validacioness.campoVacio(jp.getContrasena())) {
+            map.put(msg_error, "Contrasena Vacio");
+            return map;
+        }
+
+        Rol rolJPrestatario = new Rol();
+        rolJPrestatario.setId(ROL_PRESTATARIO);
+        jp.setRol(rolJPrestatario);
+
+        Usuario admin = new Usuario();
+        admin.setId(1L);
+        Usuario salida = usuarioService.registrarUsuario(jp, ROL_PRESTATARIO, admin);
+
+        if (salida == null) {
+            map.put(msg_error, "ERROR AL REGISTRAR");
+        } else {
+
+            map.put(msg_ok, "Tu registro fue exitoso!");
+        }
+        return map;
+    }
+
     @DeleteMapping("/eliminacionPrestatario")
     @ResponseBody
     public Map<?, ?> deletePrestatario(Usuario jp, HttpSession session) {

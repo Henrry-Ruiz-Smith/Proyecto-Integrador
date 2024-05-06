@@ -100,4 +100,10 @@ public class EnlacesController {
 		}
 		return "registrarPrestatario";
 	}
+
+	@GetMapping("/singup")
+	public String registrarLoginPrestatario() {
+
+		return "registrarLoginPrestatario";
+	}
 }
