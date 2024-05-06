@@ -23,12 +23,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> buscarUsuarioNombreYApellidoXRol(@Param("textBusqueda") String textBusqueda,
             @Param("idRol") int idRol);
 
-    @Query("Select p from Opcion p, RolHasOpcion pr, Rol r, UsuarioHasRol u"
+    @Query("Select p from Opcion p, Acceso pr, Rol r, Permiso u"
             + " where  p.idOpcion = pr.opcion.idOpcion "
-            + " and pr.rol.idRol = r.idRol and r.idRol = u.rol.idRol and u.usuario.idUsuario = :var_idUsuario")
+            + " and pr.rol.id = r.id"
+            + " and r.id=u.rol.id and u.usuario.id=:var_idUsuario")
+
     public abstract List<Opcion> traerEnlacesDeUsuario(@Param("var_idUsuario") Long idUsuario);
 
-    @Query("Select r from Rol r, UsuarioHasRol u"
-            + " where r.idRol = u.rol.idRol and u.usuario.idUsuario = :var_idUsuario")
+    @Query("Select r from Rol r, Permiso u"
+            + " where r.id = u.rol.id and u.usuario.id = :var_idUsuario")
     public abstract List<Rol> traerRolesDeUsuario(@Param("var_idUsuario") Long idUsuario);
 }
