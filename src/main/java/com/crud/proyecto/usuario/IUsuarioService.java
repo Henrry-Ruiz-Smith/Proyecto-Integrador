@@ -1,16 +1,13 @@
-package com.crud.proyecto.IService;
+package com.crud.proyecto.usuario;
 
 import java.util.List;
 
-import com.crud.proyecto.entity.Rol;
-import com.crud.proyecto.entity.Usuario;
+import com.crud.proyecto.roles.Rol;
 
-
-
-public interface UsuarioService {
+public interface IUsuarioService {
 
     List<Usuario> findAll();
-    
+
     List<Rol> listarRoles();
 
     Usuario findById(Long id);
@@ -20,13 +17,15 @@ public interface UsuarioService {
     Usuario update(Long id, Usuario usuario);
 
     void delete(Long id);
-    
+
     Usuario iniciarSesion(String username, String contrasena);
-    
+
     List<Usuario> buscarUsuarioNombreXApellido(String textoBuscar);
-    
-    List<Usuario> listarUsuarios (String nombreRol);
+
+    List<Usuario> listarUsuarios(String nombreRol);
+
+    List<Usuario> listarUsuariosPorIdRol(int idRol);
 
     void registrar(Usuario usuario);
-    
+
 }

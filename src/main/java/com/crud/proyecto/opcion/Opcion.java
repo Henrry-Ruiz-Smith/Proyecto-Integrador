@@ -1,4 +1,4 @@
-package com.crud.proyecto.entity;
+package com.crud.proyecto.opcion;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,13 +11,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "roles")
-public class Rol {
+@Table(name = "opcion")
+public class Opcion {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String nombre;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int idOpcion;
+	private String nombre;
+	private String ruta;
+	private int estado;
 
 }

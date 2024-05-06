@@ -1,4 +1,4 @@
-package com.crud.proyecto.controller;
+package com.crud.proyecto.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.crud.proyecto.IService.UsuarioService;
-import com.crud.proyecto.entity.Usuario;
+import com.crud.proyecto.usuario.IUsuarioService;
+import com.crud.proyecto.usuario.Usuario;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private IUsuarioService usuarioService;
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {

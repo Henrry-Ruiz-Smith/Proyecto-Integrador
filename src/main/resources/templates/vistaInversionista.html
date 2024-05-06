@@ -67,7 +67,7 @@
       <div class="col-md-12">
         <div class="content table-responsive-md">
           <table id="id_table" class="table table-sm table-hover">
-            <thead class="table-dark">
+            <thead class="table">
               <tr>
                 <th style="width: 5%">Editar</th>
                 <th style="width: 5%">Eliminar</th>
@@ -587,6 +587,45 @@
   </div>
 
   <script type="text/javascript">
+    $.getJSON("buscarJefePrestamista", {
+      "nombres": nombresApellidos,
+     
+    }, function (data) {
+      if (data.LIST == null) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "info",
+          title: data.MSG_EMPTY
+        });
+      } else {
+        agregarGrilla(data.LIST);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "success",
+          title: "Se encontraron coincidencias"
+        });
+      }
+    });
 
   </script>
 

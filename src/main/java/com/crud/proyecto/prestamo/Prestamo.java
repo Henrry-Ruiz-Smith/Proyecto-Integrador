@@ -1,4 +1,4 @@
-package com.crud.proyecto.entity;
+package com.crud.proyecto.prestamo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

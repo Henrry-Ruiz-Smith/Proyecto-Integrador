@@ -1,12 +1,9 @@
-package com.crud.proyecto.service;
+package com.crud.proyecto.prestamo;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.crud.proyecto.entity.Prestamo;
-import com.crud.proyecto.repository.PrestamoRepository;
 
 @Service
 public class PrestamoServiceImpl {

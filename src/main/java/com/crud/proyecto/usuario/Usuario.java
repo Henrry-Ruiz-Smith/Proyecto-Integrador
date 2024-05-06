@@ -1,4 +1,6 @@
-package com.crud.proyecto.entity;
+package com.crud.proyecto.usuario;
+
+import com.crud.proyecto.roles.Rol;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

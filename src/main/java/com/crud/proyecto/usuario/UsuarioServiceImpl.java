@@ -1,4 +1,4 @@
-package com.crud.proyecto.service;
+package com.crud.proyecto.usuario;
 
 
 import java.util.HashMap;
@@ -8,15 +8,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.crud.proyecto.IService.UsuarioService;
-import com.crud.proyecto.entity.Rol;
-import com.crud.proyecto.entity.Usuario;
-import com.crud.proyecto.repository.RolRepository;
-import com.crud.proyecto.repository.UsuarioRepository;
+import com.crud.proyecto.roles.Rol;
+import com.crud.proyecto.roles.RolRepository;
 
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Autowired
     private UsuarioRepository usuarioRepository;
@@ -98,5 +95,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void registrar(Usuario usuario) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'registrar'");
+    }
+
+    @Override
+    public List<Usuario> listarUsuariosPorIdRol(int idRol) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarUsuariosPorIdRol'");
     }
 }

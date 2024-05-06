@@ -1,4 +1,4 @@
-package com.crud.proyecto.controller;
+package com.crud.proyecto.usuario;
 
 import java.util.List;
 
@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.crud.proyecto.IService.UsuarioService;
-import com.crud.proyecto.entity.Rol;
-import com.crud.proyecto.entity.Usuario;
+import com.crud.proyecto.roles.Rol;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private IUsuarioService usuarioService;
 
     @GetMapping("/principal")
     public String mostrarUsuarios(Model model, HttpServletRequest request) {
@@ -92,4 +90,17 @@ public class UsuarioController {
         return "redirect:/usuarios/principal";
     }
 
+    // Método para mostrar el formulario de registro
+    @GetMapping("/registro")
+    public String mostrarFormularioRegistro(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "registro";
+    }
+
+    // Método para procesar el formulario de registro
+    @PostMapping("/registro")
+    public String registrarUsuario(@ModelAttribute("usuario") Usuario usuario) {
+        usuarioService.registrar(usuario); // Implementa este método en tu servicio
+        return "redirect:/login"; // Redirige a la página de inicio de sesión después del registro
+    }
 }

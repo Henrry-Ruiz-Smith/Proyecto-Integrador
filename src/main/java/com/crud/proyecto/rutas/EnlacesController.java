@@ -1,4 +1,4 @@
-package com.crud.proyecto.controller;
+package com.crud.proyecto.rutas;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
