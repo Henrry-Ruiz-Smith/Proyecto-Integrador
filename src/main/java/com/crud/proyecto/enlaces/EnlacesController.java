@@ -1,4 +1,4 @@
-package com.crud.proyecto.rutas;
+package com.crud.proyecto.enlaces;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

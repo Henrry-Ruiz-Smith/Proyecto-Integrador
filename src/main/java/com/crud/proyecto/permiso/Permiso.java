@@ -25,7 +25,7 @@ public class Permiso {
 	private Usuario usuario;
 
 	@ManyToOne
-	@JoinColumn(name = "id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "idRol", nullable = false, insertable = false, updatable = false)
 	private Rol rol;
 
 }
