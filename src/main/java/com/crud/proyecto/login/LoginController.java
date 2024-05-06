@@ -42,8 +42,9 @@ public class LoginController {
             List<Opcion> menus = usuarioService.traerEnlacesDeUsuario(usuarioLogueado.getId());
             session.setAttribute("objRoles", roles);
             switch (Integer.parseInt(usuarioLogueado.getRol().getId().toString())) {
+                //ADMIN
                 case 1:
-                    return "redirect:/" + menus.get(0).getRuta();
+                    return "redirect:/";
                 // INVERSIONISTA
                 case 2:
                     return "redirect:/" + menus.get(0).getRuta();

@@ -61,7 +61,7 @@
   </header>
 
   <div class="container" style="margin-top: 4% ;margin-bottom: 15%">
-    <h3>Mantenimiento Jefe Prestamistas</h3>
+    <h3>Mantenimiento  Prestamistas</h3>
     <div class="col-md-12">
 
       <div class="card" style="width: 95%">
@@ -192,14 +192,14 @@
     $("#id_btn_registra").click(function () {
       $.ajax({
         type: "POST",
-        url: "insertJefePrestamista",
+        url: "insertPrestamista",
         data: $('#id_form_registra').serialize(),
         success: function (data) {
           if (data.msg_ok == null) {
             showAlertMini("error", data.msg_error);
           } else {
             showAlertMini("success", data.msg_ok);
-            showAlertGrande("success", "!BIEN!", data.msg_ok, "vistaInversionista")
+            showAlertGrande("success", "!BIEN!", data.msg_ok, "vistaJefePrestamita")
           }
         },
         error: function () {

@@ -1,8 +1,10 @@
 package com.crud.proyecto.usuario;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,9 @@ import com.crud.proyecto.opcion.Opcion;
 import com.crud.proyecto.permiso.Permiso;
 import com.crud.proyecto.permiso.PermisoPK;
 import com.crud.proyecto.permiso.PermisoRepository;
+import com.crud.proyecto.prestamista.Prestamista;
+import com.crud.proyecto.prestamista.PrestamistaPK;
+import com.crud.proyecto.prestamista.PrestamistaRepository;
 import com.crud.proyecto.roles.Rol;
 import com.crud.proyecto.roles.RolRepository;
 
@@ -29,6 +34,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
     private PermisoRepository permisoRepository;
     @Autowired
     private JefePrestamistaRepository jefePrestamistaRepository;
+    @Autowired
+    private PrestamistaRepository prestamistaRepository;
 
     @Override
     public List<Usuario> findAll() {
@@ -110,9 +117,29 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public List<Usuario> buscarUsuarioNombreYApellidoXRol(String textoBuscar, Long idRol) {
+    public List<Usuario> buscarUsuarioNombreYApellidoXRol(String textoBuscar, Long idRol, Usuario idUsuarioCreador) {
+        // Buscar usuarios por nombre, apellido y rol
+        List<Usuario> usuarios = usuarioRepository.buscarUsuarioNombreYApellidoXRol(textoBuscar, idRol);
 
-        return usuarioRepository.buscarUsuarioNombreYApellidoXRol(textoBuscar, idRol);
+        // Obtener los IDs de los usuarios encontrados
+        List<Long> idsUsuarios = usuarios.stream().map(Usuario::getId).collect(Collectors.toList());
+
+        int idRolUsuarioEnSesion = (int) idUsuarioCreador.getZona().getId().longValue();
+        List<Usuario> usuariosAsociados = new ArrayList<>();
+        switch (idRolUsuarioEnSesion) {
+            case 2:
+                // Obtener los usuarios asociados a los JefePrestamista
+                return jefePrestamistaRepository.findUsuariosByJefePrestamistaIds(
+                        idsUsuarios,
+                        idUsuarioCreador.getZona().getId());
+            case 3:
+                // Obtener los usuarios asociados a los JefePrestamista
+                return prestamistaRepository.findUsuariosByPrestamistaIds(
+                        idsUsuarios,
+                        idUsuarioCreador.getZona().getId());
+            default:
+                return usuariosAsociados;
+        }
     }
 
     @Override
@@ -146,15 +173,23 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
         switch (idRolInt) {
             case 3:
-                JefePrestamistaPK hasUsuarioPK = new JefePrestamistaPK();
-                hasUsuarioPK.setIdJefePrestamista(objSalida.getId());
-                hasUsuarioPK.setIdInversionistaCreador(usarioSesion.getId());
+                JefePrestamistaPK jpPK = new JefePrestamistaPK();
+                jpPK.setIdJefePrestamista(objSalida.getId());
+                jpPK.setIdInversionistaCreador(usarioSesion.getId());
 
-                JefePrestamista hasUsuario = new JefePrestamista();
-                hasUsuario.setJefePrestamistaPK(hasUsuarioPK);
-                jefePrestamistaRepository.save(hasUsuario);
+                JefePrestamista jefePrestamista = new JefePrestamista();
+                jefePrestamista.setJefePrestamistaPK(jpPK);
+                jefePrestamistaRepository.save(jefePrestamista);
                 break;
+            case 4:
+                PrestamistaPK presPK = new PrestamistaPK();
+                presPK.setIdPrestamista(objSalida.getId());
+                presPK.setIdInversionistaCreador(usarioSesion.getId());
 
+                Prestamista prestamista = new Prestamista();
+                prestamista.setPrestamistaPK(presPK);
+                prestamistaRepository.save(prestamista);
+                break;
             default:
                 break;
         }

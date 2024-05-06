@@ -68,4 +68,17 @@ public class EnlacesController {
 		}
 		return "registrarJefePrestamista";
 	}
+
+	// Registros
+	@GetMapping("/registrarPrestamista")
+	public String registrarPrestamista(HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+		if (usuario == null) {
+			return "redirect:/?error";
+		}
+		return "registrarPrestamista";
+	}
 }

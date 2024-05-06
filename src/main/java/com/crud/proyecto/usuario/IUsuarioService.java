@@ -23,7 +23,7 @@ public interface IUsuarioService {
 
     List<Usuario> buscarUsuarioNombreXApellido(String textoBuscar);
 
-    List<Usuario> buscarUsuarioNombreYApellidoXRol(String textoBuscar, Long idRol);
+    List<Usuario> buscarUsuarioNombreYApellidoXRol(String textoBuscar, Long idRol, Usuario idUsuarioCreador);
 
     List<Usuario> listarUsuarios(String nombreRol);
 
