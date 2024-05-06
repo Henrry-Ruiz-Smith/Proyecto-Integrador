@@ -2,6 +2,7 @@ package com.crud.proyecto.usuario;
 
 import java.util.List;
 
+import com.crud.proyecto.opcion.Opcion;
 import com.crud.proyecto.roles.Rol;
 
 public interface IUsuarioService {
@@ -21,12 +22,17 @@ public interface IUsuarioService {
     Usuario iniciarSesion(String username, String contrasena);
 
     List<Usuario> buscarUsuarioNombreXApellido(String textoBuscar);
+
     List<Usuario> buscarUsuarioNombreYApellidoXRol(String textoBuscar, int idRol);
 
     List<Usuario> listarUsuarios(String nombreRol);
 
-    List<Usuario> listarUsuariosPorIdRol(int idRol);
+    List<Usuario> listarUsuarios(int idRol);
 
     void registrar(Usuario usuario);
+
+    List<Opcion> traerEnlacesDeUsuario(Long idUsuario);
+
+    List<Rol> traerRolesDeUsuario(Long idUsuario);
 
 }

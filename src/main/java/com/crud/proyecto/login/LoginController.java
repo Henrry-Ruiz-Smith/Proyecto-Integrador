@@ -1,11 +1,15 @@
 package com.crud.proyecto.login;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.crud.proyecto.opcion.Opcion;
+import com.crud.proyecto.roles.Rol;
 import com.crud.proyecto.usuario.IUsuarioService;
 import com.crud.proyecto.usuario.Usuario;
 
@@ -31,8 +35,15 @@ public class LoginController {
             @RequestParam("contrasena") String contrasena, HttpServletRequest request) {
         Usuario usuarioLogueado = usuarioService.iniciarSesion(username, contrasena);
         if (usuarioLogueado != null) {
+
             HttpSession session = request.getSession(true);
             session.setAttribute("usuario", usuarioLogueado);
+            List<Rol> roles = usuarioService.traerRolesDeUsuario(usuarioLogueado.getId());
+            List<Opcion> menus = usuarioService.traerEnlacesDeUsuario(usuarioLogueado.getId());
+            if (usuarioLogueado.getRol().getId() == 2) {
+
+                return "vistaInversionista";
+            }
             return "redirect:/usuarios/principal";
         } else {
             return "redirect:/?error";

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.crud.proyecto.opcion.Opcion;
 import com.crud.proyecto.roles.Rol;
 import com.crud.proyecto.roles.RolRepository;
 
@@ -94,7 +95,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public List<Usuario> listarUsuariosPorIdRol(int idRol) {
+    public List<Usuario> listarUsuarios(int idRol) {
         throw new UnsupportedOperationException("Unimplemented method 'listarUsuariosPorIdRol'");
     }
 
@@ -103,4 +104,15 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
         return usuarioRepository.buscarUsuarioNombreYApellidoXRol(textoBuscar, idRol);
     }
+
+    @Override
+    public List<Opcion> traerEnlacesDeUsuario(Long idUsuario) {
+        return usuarioRepository.traerEnlacesDeUsuario(idUsuario);
+    }
+
+    @Override
+    public List<Rol> traerRolesDeUsuario(Long idUsuario) {
+        return usuarioRepository.traerRolesDeUsuario(idUsuario);
+    }
+
 }
