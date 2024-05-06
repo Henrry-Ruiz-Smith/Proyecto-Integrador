@@ -1,14 +1,71 @@
-html, body {
+html,
+body {
     font-family: 'Roboto', sans-serif;
 }
+
 body {
     /* Establece la imagen de fondo */
-    background-image: url(https://img.freepik.com/vector-gratis/fondo-futurista-degradado-geometrico_23-2149116406.jpg);
+    background-image: url(https://cdn-heamn.nitrocdn.com/QwmNANDJzoOQGYxvvetRZNxDbJRusvGr/assets/images/optimized/rev-ba59e89/accelerationeconomy.com/wp-content/uploads/2022/09/Turnaround-Framework-1024x576.jpg);
 
     /* Ajusta el tamaño y la posición de la imagen de fondo */
     background-size: cover;
     background-position: center;
-    
+
     /* Establece un color de fondo de respaldo */
-    background-color: #f8f9fa; /* Cambia esto según tus preferencias */
+    background-color: #f8f9fa;
+    /* Cambia esto según tus preferencias */
+}
+
+nav {
+    width: 100%;
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding-right: 50px;
+    padding-right: 50px;
+    border-radius: 20px;
+    padding: 20px;
+    right: 0;
+    margin-right: 15px;
+    margin-top: 5px;
+}
+
+.menu.show {
+    display: block;
+}
+
+.sub-menu {
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+    left: 0;
+}
+
+.logout {
+    text-align: right;
+}
+
+
+/* .sub-menu:hover{
+    background-color: #909090;
+
+} */
+#userMenu {
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+/* Hover effect */
+#userMenu:hover {
+    background-color: #909090;
+
 }

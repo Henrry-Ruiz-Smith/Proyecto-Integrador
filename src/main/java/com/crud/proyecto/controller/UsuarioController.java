@@ -1,6 +1,5 @@
 package com.crud.proyecto.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import com.crud.proyecto.entity.Usuario;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -28,22 +26,21 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-
     @GetMapping("/principal")
     public String mostrarUsuarios(Model model, HttpServletRequest request) {
-    	
+
         HttpSession session = request.getSession();
-       
+
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        
-    	if(usuario != null) {
+
+        if (usuario != null) {
             List<Usuario> usuarios = usuarioService.listarUsuarios(usuario.getRol().getNombre());
             model.addAttribute("usuarios", usuarios);
-    	}
-   
+        }
+
         return "index";
     }
-    
+
     @GetMapping("/buscarUsuario")
     public String buscarUsuario(@RequestParam("query") String query, Model model) {
         List<Usuario> usuarios = usuarioService.buscarUsuarioNombreXApellido(query);
@@ -61,10 +58,9 @@ public class UsuarioController {
         return "crear";
     }
 
-
     @PostMapping("/guardarUsuario")
     public String guardarUsuario(@ModelAttribute("usuario") Usuario usuario) {
-        if(usuario != null && usuario.getId() != null && usuario.getId() != 0) {
+        if (usuario != null && usuario.getId() != null && usuario.getId() != 0) {
             usuarioService.update(usuario.getId(), usuario);
         } else {
             usuarioService.save(usuario);
@@ -72,27 +68,24 @@ public class UsuarioController {
         return "redirect:/usuarios/principal";
     }
 
-
-
     @GetMapping("/editarUsuario/{id}")
     public String editarUsuario(@PathVariable("id") Long id, Model model) {
         Usuario usuario = usuarioService.findById(id);
         List<Rol> roles = usuarioService.listarRoles();
-        
+
         model.addAttribute("roles", roles);
         model.addAttribute("tituloAccion", "Editar Usuario");
         model.addAttribute("botonAccion", "Actualizar Usuario");
-        
+
         if (usuario != null) {
-        	System.out.println("usuarios a edirtar "+ usuario);
+            System.out.println("usuarios a edirtar " + usuario);
             model.addAttribute("usuario", usuario);
             return "crear";
         } else {
-            return "redirect:/usuarios/principal"; 
+            return "redirect:/usuarios/principal";
         }
     }
 
-    
     @GetMapping("/eliminarUsuario/{id}")
     public String eliminarUsuario(@PathVariable("id") Long id) {
         usuarioService.delete(id);

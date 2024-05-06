@@ -80,6 +80,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public List<Usuario> listarUsuarios(String nombreRol) {
 		
 	    Map<String, String> roles = new HashMap<>();
+
+	    roles.put("admin", "Admin");
 	    roles.put("Inversionista", "Jefe de Prestamistas");
 	    roles.put("Jefe de Prestamistas", "Prestamista");
 	    roles.put("Prestamista", "Prestatario");

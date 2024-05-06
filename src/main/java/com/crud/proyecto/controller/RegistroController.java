@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.crud.proyecto.IService.UsuarioService;
 import com.crud.proyecto.entity.Usuario;
 
-
 // Controlador para el registro de usuarios
 @Controller
 public class RegistroController {
-    
+
     @Autowired
     private UsuarioService usuarioService;
 

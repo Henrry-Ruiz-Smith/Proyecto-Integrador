@@ -15,7 +15,7 @@ import com.crud.proyecto.service.PrestamoServiceImpl;
 @Controller
 @RequestMapping("/prestamos")
 public class PrestamoController {
-    
+
     @Autowired
     private PrestamoServiceImpl prestamoService;
 
@@ -33,4 +33,3 @@ public class PrestamoController {
         return "redirect:/usuarios/principal"; // Redirige a la página principal después de la solicitud de préstamo
     }
 }
-

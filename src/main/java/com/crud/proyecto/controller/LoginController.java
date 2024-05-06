@@ -12,37 +12,30 @@ import com.crud.proyecto.entity.Usuario;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 public class LoginController {
-	
-	
+
     @Autowired
     private UsuarioService usuarioService;
-	
-    @GetMapping("/")
-    public String mostrarFormularioLogin() {
-        return "login";
-    }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.removeAttribute("usuario");
         session.invalidate();
-        return "redirect:/?logoutSuccess=true"; 
+        return "redirect:/?logoutSuccess=true";
     }
 
-
     @PostMapping("/login")
-    public String iniciarSesion(@RequestParam("username") String username, @RequestParam("contrasena") String contrasena, HttpServletRequest request) {
+    public String iniciarSesion(@RequestParam("username") String username,
+            @RequestParam("contrasena") String contrasena, HttpServletRequest request) {
         Usuario usuarioLogueado = usuarioService.iniciarSesion(username, contrasena);
         if (usuarioLogueado != null) {
             HttpSession session = request.getSession(true);
             session.setAttribute("usuario", usuarioLogueado);
             return "redirect:/usuarios/principal";
         } else {
-        	return "redirect:/?error";
+            return "redirect:/?error";
         }
     }
 
