@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.crud.proyecto.model.entity.Usuario;
-import com.crud.proyecto.model.service.UsuarioService;
+import com.crud.proyecto.IService.UsuarioService;
+import com.crud.proyecto.entity.Usuario;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

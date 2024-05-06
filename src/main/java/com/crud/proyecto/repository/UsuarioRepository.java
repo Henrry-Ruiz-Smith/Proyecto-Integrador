@@ -1,13 +1,13 @@
-package com.crud.proyecto.model.repository;
+package com.crud.proyecto.repository;
 
-
-import com.crud.proyecto.model.entity.Usuario;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import com.crud.proyecto.entity.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     

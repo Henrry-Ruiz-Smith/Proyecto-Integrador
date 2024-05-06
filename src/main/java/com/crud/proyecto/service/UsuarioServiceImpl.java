@@ -1,18 +1,18 @@
-package com.crud.proyecto.model.service.impl;
+package com.crud.proyecto.service;
 
-
-import com.crud.proyecto.model.entity.Rol;
-import com.crud.proyecto.model.entity.Usuario;
-import com.crud.proyecto.model.repository.RolRepository;
-import com.crud.proyecto.model.repository.UsuarioRepository;
-import com.crud.proyecto.model.service.UsuarioService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.crud.proyecto.IService.UsuarioService;
+import com.crud.proyecto.entity.Rol;
+import com.crud.proyecto.entity.Usuario;
+import com.crud.proyecto.repository.RolRepository;
+import com.crud.proyecto.repository.UsuarioRepository;
 
 
 @Service
@@ -91,4 +91,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 	        throw new IllegalArgumentException("Rol desconocido: " + nombreRol);
 	    }
 	}
+
+    @Override
+    public void registrar(Usuario usuario) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'registrar'");
+    }
 }

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.crud.proyecto.model.entity.Usuario;
-import com.crud.proyecto.model.service.UsuarioService;
+import com.crud.proyecto.IService.UsuarioService;
+import com.crud.proyecto.entity.Usuario;
 
 
 // Controlador para el registro de usuarios

@@ -1,8 +1,9 @@
-package com.crud.proyecto.model.repository;
+package com.crud.proyecto.repository;
 
 
-import com.crud.proyecto.model.entity.Rol;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.crud.proyecto.entity.Rol;
 
 public interface RolRepository extends JpaRepository<Rol, Long> {
 }

@@ -1,10 +1,9 @@
-package com.crud.proyecto.model.service;
-
-import com.crud.proyecto.model.entity.Rol;
-import com.crud.proyecto.model.entity.Usuario;
-
+package com.crud.proyecto.IService;
 
 import java.util.List;
+
+import com.crud.proyecto.entity.Rol;
+import com.crud.proyecto.entity.Usuario;
 
 
 

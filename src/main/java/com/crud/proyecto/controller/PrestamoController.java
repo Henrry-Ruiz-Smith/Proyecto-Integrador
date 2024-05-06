@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.crud.proyecto.model.entity.Prestamo;
-import com.crud.proyecto.model.service.PrestamoService;
+import com.crud.proyecto.entity.Prestamo;
+import com.crud.proyecto.service.PrestamoServiceImpl;
 
 // Controlador para la solicitud de préstamos
 @Controller
@@ -17,7 +17,7 @@ import com.crud.proyecto.model.service.PrestamoService;
 public class PrestamoController {
     
     @Autowired
-    private PrestamoService prestamoService;
+    private PrestamoServiceImpl prestamoService;
 
     // Método para mostrar el formulario de solicitud de préstamo
     @GetMapping("/solicitar")
