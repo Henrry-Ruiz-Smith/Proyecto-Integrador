@@ -1,7 +1,6 @@
 package com.crud.proyecto.jefeprestamista;
 
 import com.crud.proyecto.usuario.Usuario;
-import com.crud.proyecto.zona.Zona;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -28,9 +27,6 @@ public class JefePrestamista {
     @JoinColumn(name = "idInversionistaCreador", nullable = false, insertable = false, updatable = false)
     private Usuario inversionista;
 
-	@ManyToOne
-    @JoinColumn(name = "idZona")
-    private Zona zona;
     
 
 }

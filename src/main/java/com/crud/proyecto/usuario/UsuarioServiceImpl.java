@@ -16,7 +16,6 @@ import com.crud.proyecto.permiso.PermisoPK;
 import com.crud.proyecto.permiso.PermisoRepository;
 import com.crud.proyecto.roles.Rol;
 import com.crud.proyecto.roles.RolRepository;
-import com.crud.proyecto.zona.Zona;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
@@ -127,7 +126,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Usuario registrarUsuario(Usuario bean, Long idRol, Usuario usarioSesion, Zona zona) {
+    public Usuario registrarUsuario(Usuario bean, Long idRol, Usuario usarioSesion) {
         // Guardar el Usuario
         Usuario objSalida = usuarioRepository.save(bean);
         // Configurar UsuarioHasRolPK
@@ -153,7 +152,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
                 JefePrestamista hasUsuario = new JefePrestamista();
                 hasUsuario.setJefePrestamistaPK(hasUsuarioPK);
-                hasUsuario.setZona(zona);
                 jefePrestamistaRepository.save(hasUsuario);
                 break;
 
@@ -162,6 +160,21 @@ public class UsuarioServiceImpl implements IUsuarioService {
         }
 
         return objSalida;
+    }
+
+    @Override
+    public List<Usuario> validarEmail(String email) {
+        return usuarioRepository.findByCorreo(email);
+    }
+
+    @Override
+    public List<Usuario> validarDni(String dni) {
+        return usuarioRepository.findByDni(dni);
+    }
+
+    @Override
+    public List<Usuario> validarUserName(String username) {
+        return usuarioRepository.findByUsername(username);
     }
 
 }

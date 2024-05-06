@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.crud.proyecto.opcion.Opcion;
 import com.crud.proyecto.roles.Rol;
-import com.crud.proyecto.zona.Zona;
 
 public interface IUsuarioService {
 
@@ -36,5 +35,11 @@ public interface IUsuarioService {
 
     List<Rol> traerRolesDeUsuario(Long idUsuario);
 
-   Usuario registrarUsuario(Usuario bean, Long idRol ,Usuario usarioSesion,Zona zona);
+    Usuario registrarUsuario(Usuario bean, Long idRol, Usuario usarioSesion);
+
+    List<Usuario> validarEmail(String email);
+
+    List<Usuario> validarDni(String dni);
+
+    List<Usuario> validarUserName(String username);
 }

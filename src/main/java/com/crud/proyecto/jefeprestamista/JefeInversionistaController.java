@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.crud.proyecto.roles.Rol;
 import com.crud.proyecto.usuario.IUsuarioService;
 import com.crud.proyecto.usuario.Usuario;
-import com.crud.proyecto.zona.Zona;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,7 +28,6 @@ public class JefeInversionistaController {
     private final String msg_ok = "msg_ok";
     @Autowired
     private IUsuarioService usuarioService;
-    
 
     @GetMapping("/buscarJefePrestamista")
     @ResponseBody
@@ -52,7 +50,7 @@ public class JefeInversionistaController {
     // Registro de Jefe de Prestamita
     @PostMapping("/RegistrarJefePrestamista")
     @ResponseBody
-    public Map<?, ?> insertJefePrestamista(Usuario jp, HttpSession session ,Zona zona) {
+    public Map<?, ?> insertJefePrestamista(Usuario jp, HttpSession session) {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         if (Validacioness.campoVacio(jp.getNombre())) {
@@ -73,6 +71,10 @@ public class JefeInversionistaController {
             map.put(msg_error, "Dni Incorrecto 8 digitos");
             return map;
         }
+        if (!usuarioService.validarEmail(String.valueOf(jp.getDni())).isEmpty()) {
+            map.put(msg_error, "El dni ya pertenece a otro usuario");
+            return map;
+        }
 
         if (Validacioness.campoVacio(jp.getTelefono())) {
             map.put(msg_error, "telefono vacío");
@@ -88,25 +90,34 @@ public class JefeInversionistaController {
             map.put(msg_error, "Email Incorrecto");
             return map;
         }
+        if (!usuarioService.validarEmail(jp.getCorreo()).isEmpty()) {
+            map.put(msg_error, "El correo ya pertenece a otro usuario");
+            return map;
+        }
 
-        
-        if (zona.getId() == null) {
+        if (Validacioness.campoVacio(jp.getUsername())) {
+            map.put(msg_error, "Usuario Nombre Vacio");
+            return map;
+        }
+
+        if (!usuarioService.validarUserName(jp.getUsername()).isEmpty()) {
+            map.put(msg_error, "El nombre de usuario ya pertenece a otro usuario");
+            return map;
+        }
+
+        if (jp.getZona().getId() == null) {
             map.put(msg_error, "Escoge ZonA ");
             return map;
         }
 
         Usuario user = (Usuario) session.getAttribute("usuario");
-        jp.setUsername(jp.getNombre().substring(0, 3).replace(" ", "").toLowerCase()
-                + "." + jp.getApellidos().substring(0, 3).replace(" ", "").toLowerCase()
-                + String.valueOf(jp.getDni()).charAt(0)
-                + "JPMA");
         jp.setContrasena(String.valueOf(jp.getDni()));
 
         Rol rolJPrestamista = new Rol();
         rolJPrestamista.setId(ROL_JEFE_PRESTAMISTA);
         jp.setRol(rolJPrestamista);
 
-        Usuario salida = usuarioService.registrarUsuario(jp, ROL_JEFE_PRESTAMISTA, user , zona);
+        Usuario salida = usuarioService.registrarUsuario(jp, ROL_JEFE_PRESTAMISTA, user);
 
         if (salida == null) {
             map.put(msg_error, "ERROR AL REGISTRAR");
@@ -115,7 +126,6 @@ public class JefeInversionistaController {
             map.put(msg_ok, "Tu registro fue exitoso!");
         }
         return map;
-
     }
 }
 

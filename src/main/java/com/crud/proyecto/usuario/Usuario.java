@@ -1,6 +1,7 @@
 package com.crud.proyecto.usuario;
 
 import com.crud.proyecto.roles.Rol;
+import com.crud.proyecto.zona.Zona;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,23 +19,26 @@ import lombok.Setter;
 @Table(name = "usuarios")
 public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String nombre;
-    private String apellidos;
-    private String contrasena;
-    private String telefono;
-    private String correo;
-    private String username;
-    
-    private String dni;
+	private String nombre;
+	private String apellidos;
+	private String contrasena;
+	private String telefono;
+	private String correo;
+	private String username;
 
-    @ManyToOne
-    @JoinColumn(name = "rol_id", referencedColumnName = "id")
-    private Rol rol;
+	private String dni;
 
+	@ManyToOne
+	@JoinColumn(name = "rol_id", referencedColumnName = "id")
+	private Rol rol;
+
+	@ManyToOne
+	@JoinColumn(name = "idZona")
+	private Zona zona;
 
 	@Override
 	public String toString() {
@@ -58,6 +62,5 @@ public class Usuario {
 		builder.append("]");
 		return builder.toString();
 	}
-    
-    
+
 }

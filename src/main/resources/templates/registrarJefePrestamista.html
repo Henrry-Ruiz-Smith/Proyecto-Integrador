@@ -126,10 +126,10 @@
                     </div>
 
                     <div class="form-group col-lg-4">
-                      <label class="col-lg-3 control-label" for="id_reg_sede">Sede*</label>
+                      <label class="col-lg-3 control-label" for="id_reg_zona">Zona</label>
                       <div class="input-group col-lg-8">
                         <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                        <select id="id_reg_sede" name="idZona" class="form-control input-sm">
+                        <select id="id_reg_zona" name="zona.id" class="form-control input-sm">
                           <option value="">[Seleccione]</option>
 
                         </select>
@@ -154,16 +154,15 @@
                       <label class="col-lg-3 control-label" for="id_reg_nombres">Usuario*</label>
                       <div class="input-group col-lg-8">
                         <span class="input-group-addon"></span><input class="form-control input-sm" type="text"
-                          id="id_reg_user_name" name="login" autocomplete="off" placeholder="Nombre de Usuario"
-                          readonly />
+                          id="id_reg_user_name" name="login" autocomplete="off" placeholder="Nombre de Usuario" />
                       </div>
                     </div>
                     <div class="form-group col-lg-4">
                       <label class="col-lg-3 control-label" for="id_reg_nombres">Contrase&ntilde;a*</label>
                       <div class="input-group col-lg-8">
                         <span class="input-group-addon"></span><input class="form-control input-sm" type="text"
-                          id="id_reg_user_password" name="password" autocomplete="off" placeholder="Contrase&ntilde;a"
-                          readonly />
+                          id="id_reg_user_password" name="password" autocomplete="off"
+                          placeholder="Contrase&ntilde;a" />
                       </div>
                     </div>
 
@@ -200,22 +199,18 @@
             showAlertMini("error", data.msg_error);
           } else {
             showAlertMini("success", data.msg_ok);
-            Swal.fire({
-              icon: "success",
-              title: "Bien!",
-              text: data.msg_ok
-            });
-            limpiarFormularioRegistro();
-            validator.resetForm();
+            showAlertGrande("success", "!BIEN!", data.msg_ok, "vistaInversionista")
           }
         },
         error: function () {
-          Swal.fire({
-            title: "Oops...?",
-            text: msg_error,
-            icon: "error"
-          });
+          showAlertGrande("error", "Oops...?", msg_error, "")
         }
+      });
+    });
+
+    $.getJSON("zona/listarZonas", {}, function (data) {
+      $.each(data, function (index, item) {
+        $("#id_reg_zona").append("<option value=" + item.id + ">" + item.nombre + "</option>");
       });
     });
   </script>
