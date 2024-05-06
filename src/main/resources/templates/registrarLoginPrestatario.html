@@ -37,7 +37,10 @@
 
 
   <div class="container" style="margin-top: 4% ;margin-bottom: 15%">
-    <h3>Registro Usuario </h3>
+    <div class="row">
+      <a class="btn btn-danger col-md-2" href="/">Volver</a>
+      <h3>Registro Usuario </h3>
+    </div>
     <div class="col-md-12">
 
       <div class="card" style="width: 95%">
@@ -103,7 +106,7 @@
                     <div class="form-group col-lg-4">
                       <label class="col-lg-3 control-label" for="id_reg_zona">Zona</label>
                       <div class="input-group col-lg-8">
-                        <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
+                        <span class="input-group-addon"></span>
                         <select id="id_reg_zona" name="zona.id" class="form-control input-sm">
                           <option value="">[Seleccione]</option>
 
@@ -175,7 +178,7 @@
             showAlertMini("error", data.msg_error);
           } else {
             showAlertMini("success", data.msg_ok);
-            showAlertGrande("success", "!BIEN!", data.msg_ok, "vistaPrestamista")
+            showAlertGrande("success", "!BIEN!", data.msg_ok, "")
           }
         },
         error: function () {
@@ -191,7 +194,6 @@
     });
   </script>
 
-  <script type="text/javascript" src="/js/navMenu.js"></script>
   <script type="text/javascript" src="/js/alertassweet.js"></script>
 </body>
 
