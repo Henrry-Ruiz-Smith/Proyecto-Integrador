@@ -33,4 +33,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("Select r from Rol r, Permiso u"
             + " where r.id = u.rol.id and u.usuario.id = :var_idUsuario")
     public abstract List<Rol> traerRolesDeUsuario(@Param("var_idUsuario") Long idUsuario);
+
 }

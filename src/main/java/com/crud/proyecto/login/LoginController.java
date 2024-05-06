@@ -40,11 +40,27 @@ public class LoginController {
             session.setAttribute("usuario", usuarioLogueado);
             List<Rol> roles = usuarioService.traerRolesDeUsuario(usuarioLogueado.getId());
             List<Opcion> menus = usuarioService.traerEnlacesDeUsuario(usuarioLogueado.getId());
-            if (usuarioLogueado.getRol().getId() == 2) {
+            session.setAttribute("objRoles", roles);
+            switch (Integer.parseInt(usuarioLogueado.getRol().getId().toString())) {
+                case 1:
+                    return "redirect:/" + menus.get(0).getRuta();
+                // INVERSIONISTA
+                case 2:
+                    return "redirect:/" + menus.get(0).getRuta();
+                // JEFE PRESTAMISTA
+                case 3:
+                    return "redirect:/" + menus.get(0).getRuta();
+                // PRESTAMISTA
+                case 4:
+                    return "redirect:/" + menus.get(0).getRuta();
+                // PRESTAMISTA
+                case 5:
+                    return "redirect:/" + menus.get(0).getRuta();
 
-                return "vistaInversionista";
+                default:
+                    return "redirect:/usuarios/principal";
             }
-            return "redirect:/usuarios/principal";
+
         } else {
             return "redirect:/?error";
         }

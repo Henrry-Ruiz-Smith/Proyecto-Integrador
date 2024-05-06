@@ -19,8 +19,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     integrity="sha512-..." crossorigin="anonymous" />
-
-    <script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js"></script>
+  <link href="/css/navMenu.css" rel="stylesheet">
+  <script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.bootstrap5.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://npmcdn.com/flatpickr/dist/l10n/es	.js"></script>
@@ -29,7 +29,34 @@
 
 <body>
   <header>
-    <jsp:include page="integraCabecera.jsp" />
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">SISTEMA PRESTAMO - GRUPO 9</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div>
+
+          <span class="navbar-text me-3" id="userMenu"><i class="bi bi-person-raised-hand"></i>Opciones</span>
+          <div class="menu" id="submenu">
+            <div class="sub-menu">
+              Nombres : <span th:text="${session.usuario.nombre + ' ' + session.usuario.apellidos }"></span>
+            </div>
+            <div class="sub-menu">
+              Rol: <span th:text="${session.usuario.rol.nombre}"></span>
+            </div>
+            <div class="sub-menu logout">
+              <a th:href="@{/logout}" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesion
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </nav>
   </header>
 
   <div class="container" style="margin-top: 4% ;margin-bottom: 15%">
@@ -50,8 +77,8 @@
         <div class="col-md-2 col-sm-6 col-mb-3">
           <div class="col-lg-2">
 
-            <button type="button" style="width: 80px; height: 80px;" class="btn btn-primary btn-block"
-              id="id_btn_filtrar"><i style="font-size: 48px;" class="fas fa-search"></i></button>
+            <button type="button" style="width: 80px; height: 50px;" class="btn btn-primary btn-block"
+              id="id_btn_filtrar">Buscar</button>
           </div>
         </div>
       </div>
@@ -241,7 +268,7 @@
 
   </div>
   </div>
-
+  <script type="text/javascript" src="/js/navMenu.js"></script>
   <script type="text/javascript">
     var nombresApellidos = $("#id_txt_nombres").val()
     $.getJSON("buscarJefePrestamista", {
@@ -253,7 +280,7 @@
           toast: true,
           position: "top-end",
           showConfirmButton: false,
-          timer: 3000,
+          timer: 1000,
           timerProgressBar: true,
           didOpen: (toast) => {
             toast.onmouseenter = Swal.stopTimer;
@@ -269,7 +296,7 @@
           toast: true,
           position: "top-end",
           showConfirmButton: false,
-          timer: 3000,
+          timer: 900,
           timerProgressBar: true,
           didOpen: (toast) => {
             toast.onmouseenter = Swal.stopTimer;
