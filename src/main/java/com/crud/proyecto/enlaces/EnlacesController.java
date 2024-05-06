@@ -40,7 +40,14 @@ public class EnlacesController {
 	}
 
 	@GetMapping("/vistaPrestamista")
-	public String verVistaPrestamista() {
+	public String verVistaPrestamista(HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+		if (usuario == null) {
+			return "redirect:/?error";
+		}
 		return "vistaPrestamista";
 	}
 
@@ -80,5 +87,17 @@ public class EnlacesController {
 			return "redirect:/?error";
 		}
 		return "registrarPrestamista";
+	}
+
+	@GetMapping("/registrarPrestatario")
+	public String registrarPrestatario(HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+		if (usuario == null) {
+			return "redirect:/?error";
+		}
+		return "registrarPrestatario";
 	}
 }

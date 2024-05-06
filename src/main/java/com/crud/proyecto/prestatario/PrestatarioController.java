@@ -1,4 +1,5 @@
-package com.crud.proyecto.jefeprestamista;
+package com.crud.proyecto.prestatario;
+
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,35 +23,39 @@ import com.crud.proyecto.usuario.Usuario;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class JefePrestamistaController {
-    private final Long ROL_JEFE_PRESTAMISTA = 3L;
+public class PrestatarioController {
+    private final Long ROL_PRESTATARIO = 5L;
     private final String msg_error = "msg_error";
     private final String msg_ok = "msg_ok";
     @Autowired
     private IUsuarioService usuarioService;
 
-    @GetMapping("/buscarJefePrestamista")
+    @GetMapping("/buscarPrestatario")
     @ResponseBody
     // Busqueda por Datos Completos
-    public Map<String, Object> listaComplejo(@RequestParam String nombresApellidos,HttpSession session) {
+    public Map<String, Object> listaComplejo(@RequestParam String nombresApellidos, HttpSession session) {
 
-        Usuario user = (Usuario) session.getAttribute("usuario");
         try {
-            List<Usuario> usuarioJefePrestamista = usuarioService
-                    .buscarUsuarioNombreYApellidoXRol(nombresApellidos, ROL_JEFE_PRESTAMISTA ,user);
+            Usuario user = (Usuario) session.getAttribute("usuario");
 
-            return usuarioJefePrestamista.isEmpty()
+            List<Usuario> usuarioPrestatario = usuarioService
+                    .buscarUsuarioNombreYApellidoXRol(nombresApellidos, ROL_PRESTATARIO, user);
+
+            return usuarioPrestatario.isEmpty()
                     ? Collections.singletonMap("mensaje", "No hay coincidencias")
-                    : Collections.singletonMap("lista", usuarioJefePrestamista);
+                    : Collections.singletonMap("lista", usuarioPrestatario);
 
         } catch (Exception e) {
             return Collections.singletonMap("error", "Error de Servidor");
         }
     }
 
-    @PostMapping("/insertJefePrestamista")
+    // Registro de de Prestamita
+    @PostMapping("/insertPrestatario")
     @ResponseBody
-    public Map<?, ?> insertJefePrestamista(Usuario jp, HttpSession session) {
+    public Map<?, ?> insertPrestatario(Usuario jp, HttpSession session) {
+
+        Usuario user = (Usuario) session.getAttribute("usuario");
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         if (Validacioness.campoVacio(jp.getNombre())) {
@@ -95,7 +100,7 @@ public class JefePrestamistaController {
             map.put(msg_error, "El correo ya pertenece a otro usuario");
             return map;
         }
-
+        jp.setZona(user.getZona());
         if (jp.getZona().getId() == null) {
             map.put(msg_error, "Escoge ZonA ");
             return map;
@@ -115,13 +120,11 @@ public class JefePrestamistaController {
             return map;
         }
 
-        Usuario user = (Usuario) session.getAttribute("usuario");
+        Rol rolJPrestatario = new Rol();
+        rolJPrestatario.setId(ROL_PRESTATARIO);
+        jp.setRol(rolJPrestatario);
 
-        Rol rolJPrestamista = new Rol();
-        rolJPrestamista.setId(ROL_JEFE_PRESTAMISTA);
-        jp.setRol(rolJPrestamista);
-
-        Usuario salida = usuarioService.registrarUsuario(jp, ROL_JEFE_PRESTAMISTA, user);
+        Usuario salida = usuarioService.registrarUsuario(jp, ROL_PRESTATARIO, user);
 
         if (salida == null) {
             map.put(msg_error, "ERROR AL REGISTRAR");
@@ -132,17 +135,17 @@ public class JefePrestamistaController {
         return map;
     }
 
-    @DeleteMapping("/eliminacionJefePrestamista")
+    @DeleteMapping("/eliminacionPrestatario")
     @ResponseBody
-    public Map<?, ?> deleteJefePrestamista(Usuario jp, HttpSession session) {
+    public Map<?, ?> deletePrestatario(Usuario jp, HttpSession session) {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
 
         try {
             usuarioService.delete(jp.getId());
-            map.put(msg_ok, "El jefe prestamista fue eliminado exitosamente.");
+            map.put(msg_ok, "El  prestatario fue eliminado exitosamente.");
         } catch (Exception e) {
-            map.put(msg_error, "Ocurrió un error al eliminar el jefe prestamista.");
+            map.put(msg_error, "Ocurrió un error al eliminar el  prestatario.");
             e.printStackTrace(); // Manejo de errores, puedes personalizar esto según tus necesidades
         }
         return map;

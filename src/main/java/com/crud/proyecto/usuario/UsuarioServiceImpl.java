@@ -19,6 +19,9 @@ import com.crud.proyecto.permiso.PermisoRepository;
 import com.crud.proyecto.prestamista.Prestamista;
 import com.crud.proyecto.prestamista.PrestamistaPK;
 import com.crud.proyecto.prestamista.PrestamistaRepository;
+import com.crud.proyecto.prestatario.Prestatario;
+import com.crud.proyecto.prestatario.PrestatarioPK;
+import com.crud.proyecto.prestatario.PrestatarioRepository;
 import com.crud.proyecto.roles.Rol;
 import com.crud.proyecto.roles.RolRepository;
 
@@ -36,6 +39,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
     private JefePrestamistaRepository jefePrestamistaRepository;
     @Autowired
     private PrestamistaRepository prestamistaRepository;
+    @Autowired
+    private PrestatarioRepository prestatarioRepository;
 
     @Override
     public List<Usuario> findAll() {
@@ -96,7 +101,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         roles.put("admin", "Admin");
         roles.put("Inversionista", "Jefe de Prestamistas");
         roles.put("Jefe de Prestamistas", "Prestamista");
-        roles.put("Prestamista", "Prestatario");
+        roles.put("Prestamista", "Prestamista");
 
         String rolSiguiente = roles.get(nombreRol);
         if (rolSiguiente != null) {
@@ -123,20 +128,25 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
         // Obtener los IDs de los usuarios encontrados
         List<Long> idsUsuarios = usuarios.stream().map(Usuario::getId).collect(Collectors.toList());
-        System.out.println("ID USUARIOS: "+idsUsuarios);
+        System.out.println("ID USUARIOS: " + idsUsuarios);
         int idRolUsuarioEnSesion = (int) idUsuarioCreador.getRol().getId().longValue();
         List<Usuario> usuariosAsociados = new ArrayList<>();
         switch (idRolUsuarioEnSesion) {
             case 2:
-                // Obtener los usuarios asociados a los JefePrestamista
+                // Obtener los usuarios JefePrestamista asociados a los Inversionistas
                 return jefePrestamistaRepository.findUsuariosByJefePrestamistaIds(
                         idsUsuarios,
-                        idUsuarioCreador.getZona().getId());
+                        idUsuarioCreador.getZona().getId(), idUsuarioCreador.getId());
             case 3:
-                // Obtener los usuarios asociados a los JefePrestamista
+                // Obtener los usuarios Prestamistas asociados a los JefePrestamista
                 return prestamistaRepository.findUsuariosByPrestamistaIds(
                         idsUsuarios,
-                        idUsuarioCreador.getZona().getId(),idUsuarioCreador.getId());
+                        idUsuarioCreador.getZona().getId(), idUsuarioCreador.getId());
+            case 4:
+                // Obtener los usuarios Prestatarios asociados a los Prestamistas
+                return prestatarioRepository.findUsuariosByPrestatarioIds(
+                        idsUsuarios,
+                        idUsuarioCreador.getZona().getId(), idUsuarioCreador.getId());
             default:
                 return usuariosAsociados;
         }
@@ -189,6 +199,15 @@ public class UsuarioServiceImpl implements IUsuarioService {
                 Prestamista prestamista = new Prestamista();
                 prestamista.setPrestamistaPK(presPK);
                 prestamistaRepository.save(prestamista);
+                break;
+            case 5:
+                PrestatarioPK prestPK = new PrestatarioPK();
+                prestPK.setIdPrestatario(objSalida.getId());
+                prestPK.setIdPrestamistaCreador(usarioSesion.getId());
+
+                Prestatario prestatario = new Prestatario();
+                prestatario.setPrestatarioPK(prestPK);
+                prestatarioRepository.save(prestatario);
                 break;
             default:
                 break;

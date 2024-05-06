@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Expires" content="-1" />
+    <meta http-equiv="Cache-Control" content="private" />
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" />
+    <!-- NAV MENU-->
+    <link href="/css/navMenu.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/es	.js"></script>
+    <title>Grupo 9</title>
+</head>
+
+<body>
+    <header>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">SISTEMA PRESTAMO - GRUPO 9</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div>
+
+                    <span class="navbar-text me-3" id="userMenu"><i class="bi bi-person-raised-hand"></i>Opciones</span>
+                    <div class="menu" id="submenu">
+                        <div class="sub-menu">
+                            Nombres : <span
+                                th:text="${session.usuario.nombre + ' ' + session.usuario.apellidos }"></span>
+                        </div>
+                        <div class="sub-menu">
+                            Rol: <span th:text="${session.usuario.rol.nombre}"></span>
+                        </div>
+                        <div class="sub-menu">
+                            Zona: <span th:text="${session.usuario.zona.nombre}"></span>
+                        </div>
+                        <div class="sub-menu logout">
+                            <a th:href="@{/logout}" class="btn btn-danger">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesion
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container" style="margin-top: 4% ;margin-bottom: 15%">
+        <h3>Mantenimiento Prestatarios - Zona <span th:text="${session.usuario.zona.nombre}"></span></h3>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-10 col-sm-10 col-mb-3">
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12 col-mb-3">
+                            <input class="form-control" id="id_txt_nombres" name="Nombres o Apellidos"
+                                placeholder="Nombres" type="text" maxlength="30" />
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-md-2 col-sm-6 col-mb-3">
+                    <div class="col-lg-2">
+
+                        <button type="button" style="width: 80px; height: 50px;" class="btn btn-primary btn-block"
+                            id="id_btn_filtrar">Buscar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-mb-12">
+                <div class="col-md-12">
+                    <a href="registrarPrestatario" class="btn btn-primary">
+                        Nuevo Prestatario
+
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 3rem">
+            <div class="col-md-12">
+                <div class="content table-responsive-md">
+                    <table id="id_table" class="table table-sm table-hover">
+                        <thead class="table">
+                            <tr>
+                                <th style="width: 5%">ID</th>
+                                <th style="width: 5%">Nombres</th>
+                                <th style="width: 5%">Apellidos</th>
+                                <th style="width: 20%">DNI</th>
+                                <th style="width: 20%">Correo</th>
+                                <th style="width:	5%">Telefono</th>
+                                <th style="width:	5%">Rol</th>
+                                <th style="width:	5%">Usarname</th>
+                                <th style="width:	5%">Password</th>
+
+                                <th style="width:	5%">>Zona</th>
+                                <th style="width: 5%">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script type="text/javascript">
+        cargarTabla()
+
+        function accionEliminar(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "eliminacionPrestatario",
+                data: {
+                    "id": id
+                },
+                success: function (data) {
+                    Swal.fire({
+                        title: "Eliminado",
+                        text: data.msg_ok,
+                        icon: "success"
+                    });
+                    cargarTabla()
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "Oops...",
+                        text: "Ha ocurrido un error al intentar eliminar.",
+                        icon: "error"
+                    });
+                }
+            });
+        }
+
+        function cargarTabla() {
+            var nombresApellidos = $("#id_txt_nombres").val()
+            $.getJSON("buscarPrestatario", {
+                "nombresApellidos": nombresApellidos,
+
+            }, function (data) {
+                if (data.lista == null) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "info",
+                        title: data.error
+                    });
+                } else {
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 900,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "info",
+                        title: "Resultados"
+                    });
+                    agregarGrilla(data.lista);
+                }
+            });
+        }
+        function agregarGrilla(lista) {
+
+            $('#id_table').DataTable().clear();
+            $('#id_table').DataTable().destroy();
+            $('#id_table')
+                .DataTable(
+                    {
+                        data: lista,
+                        searching: false,
+                        ordering: true,
+                        processing: true,
+                        pageLength: 10,
+                        lengthChange: false,
+                        columns: [
+
+
+                            {
+                                data: "id"
+                            },
+                            {
+                                data: "nombre"
+                            },
+                            {
+                                data: "apellidos"
+                            },
+                            {
+                                data: "dni"
+                            },
+                            {
+                                data: "correo"
+                            },
+                            {
+                                data: "telefono"
+                            },
+                            {
+                                data: "rol.nombre"
+                            }, {
+                                data: "username"
+                            }, {
+                                data: "contrasena"
+                            },
+                            {
+                                data: "zona.nombre"
+                            },
+                            {
+                                data: function (row, type, val,
+                                    meta) {
+                                    var salida = '<button type="button" style="width: 90px" class="btn btn-warning btn-sm" onclick="accionEliminar(\''
+                                        + row.id
+                                        + '\')">Eliminar</button>';
+                                    return salida;
+                                },
+                                className: 'text-center'
+                            },
+                        ],
+                        createdRow: function (row) {
+                            var numeroCell = $('td:eq(2)', row);
+                            numeroCell.text(numeroCell.text()
+                                .toUpperCase());
+                        }
+                    });
+        }
+
+    </script>
+
+    <script type="text/javascript" src="/js/navMenu.js"></script>
+</body>
+
+</html>
