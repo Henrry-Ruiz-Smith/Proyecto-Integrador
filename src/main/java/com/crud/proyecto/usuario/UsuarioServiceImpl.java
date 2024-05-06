@@ -1,6 +1,5 @@
 package com.crud.proyecto.usuario;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,14 +10,13 @@ import org.springframework.stereotype.Service;
 import com.crud.proyecto.roles.Rol;
 import com.crud.proyecto.roles.RolRepository;
 
-
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
 
-	@Autowired
+    @Autowired
     private UsuarioRepository usuarioRepository;
-	
-	@Autowired
+
+    @Autowired
     private RolRepository rolRepository;
 
     @Override
@@ -51,7 +49,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return null;
     }
 
-
     @Override
     public void delete(Long id) {
         usuarioRepository.deleteById(id);
@@ -62,34 +59,34 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return usuarioRepository.findByUsernameAndContrasena(username, contrasena);
     }
 
-	@Override
-	public List<Usuario> buscarUsuarioNombreXApellido(String textoBuscar) {
-		return usuarioRepository.buscarUsuarioNombreYApellido(textoBuscar);
-	}
+    @Override
+    public List<Usuario> buscarUsuarioNombreXApellido(String textoBuscar) {
+        return usuarioRepository.buscarUsuarioNombreYApellido(textoBuscar);
+    }
 
-	@Override
-	public List<Rol> listarRoles() {
-	
-		return rolRepository.findAll();
-	}
+    @Override
+    public List<Rol> listarRoles() {
 
-	@Override
-	public List<Usuario> listarUsuarios(String nombreRol) {
-		
-	    Map<String, String> roles = new HashMap<>();
+        return rolRepository.findAll();
+    }
 
-	    roles.put("admin", "Admin");
-	    roles.put("Inversionista", "Jefe de Prestamistas");
-	    roles.put("Jefe de Prestamistas", "Prestamista");
-	    roles.put("Prestamista", "Prestatario");
+    @Override
+    public List<Usuario> listarUsuarios(String nombreRol) {
 
-	    String rolSiguiente = roles.get(nombreRol);
-	    if (rolSiguiente != null) {
-	        return usuarioRepository.listarUsuarioXRol(rolSiguiente);
-	    } else {
-	        throw new IllegalArgumentException("Rol desconocido: " + nombreRol);
-	    }
-	}
+        Map<String, String> roles = new HashMap<>();
+
+        roles.put("admin", "Admin");
+        roles.put("Inversionista", "Jefe de Prestamistas");
+        roles.put("Jefe de Prestamistas", "Prestamista");
+        roles.put("Prestamista", "Prestatario");
+
+        String rolSiguiente = roles.get(nombreRol);
+        if (rolSiguiente != null) {
+            return usuarioRepository.listarUsuarioXRol(rolSiguiente);
+        } else {
+            throw new IllegalArgumentException("Rol desconocido: " + nombreRol);
+        }
+    }
 
     @Override
     public void registrar(Usuario usuario) {
@@ -99,5 +96,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public List<Usuario> listarUsuariosPorIdRol(int idRol) {
         throw new UnsupportedOperationException("Unimplemented method 'listarUsuariosPorIdRol'");
+    }
+
+    @Override
+    public List<Usuario> buscarUsuarioNombreYApellidoXRol(String textoBuscar, int idRol) {
+
+        return usuarioRepository.buscarUsuarioNombreYApellidoXRol(textoBuscar, idRol);
     }
 }

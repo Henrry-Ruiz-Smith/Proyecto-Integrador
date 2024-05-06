@@ -21,6 +21,7 @@ public interface IUsuarioService {
     Usuario iniciarSesion(String username, String contrasena);
 
     List<Usuario> buscarUsuarioNombreXApellido(String textoBuscar);
+    List<Usuario> buscarUsuarioNombreYApellidoXRol(String textoBuscar, int idRol);
 
     List<Usuario> listarUsuarios(String nombreRol);
 

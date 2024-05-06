@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crud.proyecto.roles.IRolService;
 import com.crud.proyecto.usuario.IUsuarioService;
 import com.crud.proyecto.usuario.Usuario;
 
 @Controller
 public class JefeInversionistaController {
     private final int ROL_JEFE_PRESTAMISTA = 3;
+    private final int ROL_PRESTAMISTA = 4;
     @Autowired
     private IUsuarioService usuarioService;
+    @Autowired
+    private IRolService iRolService;
 
     @GetMapping("/buscarJefePrestamista")
     @ResponseBody
@@ -26,11 +30,11 @@ public class JefeInversionistaController {
 
         try {
             List<Usuario> usuarioJefePrestamista = usuarioService
-                    .buscarUsuarioNombreXApellido("%" + nombresApellidos + "%");
+                    .buscarUsuarioNombreYApellidoXRol(nombresApellidos, ROL_JEFE_PRESTAMISTA);
 
             return usuarioJefePrestamista.isEmpty()
                     ? Collections.singletonMap("mensaje", "No hay coincidencias")
-                    : Collections.singletonMap("list", usuarioJefePrestamista);
+                    : Collections.singletonMap("lista", usuarioJefePrestamista);
 
         } catch (Exception e) {
             return Collections.singletonMap("error", "Error de Servidor");
