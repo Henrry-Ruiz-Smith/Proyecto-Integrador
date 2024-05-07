@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crud.proyecto.prestatario.Prestatario;
+import com.crud.proyecto.prestatario.PrestatarioRepository;
 import com.crud.proyecto.usuario.Usuario;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +30,8 @@ public class PrestamoController {
     @Autowired
     private PrestamoServiceImpl prestamoService;
 
+    @Autowired
+    private PrestatarioRepository prestatarioRepository;
     private final String ESTADO_PENDIENTE = "PENDIENTE";
     private final String ESTADO_APROBADO = "APROBADO";
     private final String ESTADO_RECHAZADO = "RECHAZADO";
@@ -61,14 +65,16 @@ public class PrestamoController {
     @ResponseBody
     public Map<String, Object> solicitarPrestamo(@RequestParam String fecha_inicio,
             @RequestParam String fecha_fin, Prestamo obj, HttpSession session) {
-
         Usuario user = (Usuario) session.getAttribute("usuario");
+        List<Prestatario> ptario = prestatarioRepository.buscarPorPrestatario(user.getId());
+        Prestatario p = ptario.get(0);
         Date fechaInicio = getFechaDate(fecha_inicio);
         Date fechaFin = getFechaDate(fecha_fin);
         obj.setFechaInicio(fechaInicio);
         obj.setFechaFin(fechaFin);
         obj.setEstado(ESTADO_PENDIENTE);
         obj.setIdPrestatario(user);
+        obj.setIdPrestatamista(p.getPrestamista());
         obj.setTipoCuotas("DIARIO");
         Prestamo objSalida = prestamoService.solicitar(obj);
 
@@ -91,15 +97,15 @@ public class PrestamoController {
 
         long idLong = Long.parseLong(id);
         Prestamo prestamo = prestamoService.obtenerPrestamoPorId(idLong);
-        estado = estado.equalsIgnoreCase(ESTADO_RECHAZADO) ? ESTADO_RECHAZADO : ESTADO_APROBADO;
-        prestamo.setEstado(estado);
+        String estadoFn = estado.equalsIgnoreCase("0") ? ESTADO_RECHAZADO : ESTADO_APROBADO;
+        prestamo.setEstado(estadoFn);
         prestamo.setIdPrestatamista(user);
         Prestamo objSalida = prestamoService.actualizarPrestamo(idLong, prestamo);
 
         try {
             return objSalida != null
-                    ? Collections.singletonMap("mensaje_ok", "Solicitud " + estado)
-                    : Collections.singletonMap("mensaje_error", "Error de Cancelacion");
+                    ? Collections.singletonMap("msg_ok", "Solicitud " + estadoFn)
+                    : Collections.singletonMap("msg_error", "Error de Cancelacion");
 
         } catch (Exception e) {
             return Collections.singletonMap("msg_error", "Error de Servidor");
@@ -118,8 +124,8 @@ public class PrestamoController {
         try {
 
             return objSalida != null
-                    ? Collections.singletonMap("mensaje_ok", "Solicitud Cancelada")
-                    : Collections.singletonMap("mensaje_error", "Error de Cancelacion");
+                    ? Collections.singletonMap("msg_ok", "Solicitud Cancelada")
+                    : Collections.singletonMap("msg_error", "Error de Cancelacion");
 
         } catch (Exception e) {
             return Collections.singletonMap("msg_error", "Error de Servidor");

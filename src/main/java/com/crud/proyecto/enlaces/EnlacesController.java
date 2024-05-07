@@ -119,4 +119,16 @@ public class EnlacesController {
 		return "solicitarPrestamo";
 	}
 
+	@GetMapping("/aprobarSolicitudesPrestamo")
+	public String aprobarSolicitudesPrestamo(HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+		if (usuario == null) {
+			return "redirect:/?error";
+		}
+		return "aprobarSolicitudesPrestamo";
+	}
+
 }
