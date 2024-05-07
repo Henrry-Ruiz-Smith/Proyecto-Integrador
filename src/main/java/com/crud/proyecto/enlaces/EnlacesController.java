@@ -106,4 +106,17 @@ public class EnlacesController {
 
 		return "registrarLoginPrestatario";
 	}
+
+	@GetMapping("/solicitarPrestamo")
+	public String solicitarPrestamos(HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+		if (usuario == null) {
+			return "redirect:/?error";
+		}
+		return "solicitarPrestamo";
+	}
+
 }
