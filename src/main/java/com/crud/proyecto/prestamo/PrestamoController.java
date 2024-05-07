@@ -1,7 +1,9 @@
 package com.crud.proyecto.prestamo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -55,20 +57,26 @@ public class PrestamoController {
         }
     }
 
-    @PostMapping("/solicitarPrestamo")
+    @PostMapping("/solicitaPrestamo")
     @ResponseBody
-    public Map<String, Object> solicitarPrestamo(@RequestParam Prestamo prestamo, HttpSession session) {
+    public Map<String, Object> solicitarPrestamo(@RequestParam String fecha_inicio,
+            @RequestParam String fecha_fin, Prestamo obj, HttpSession session) {
 
         Usuario user = (Usuario) session.getAttribute("usuario");
-        prestamo.setEstado(ESTADO_PENDIENTE);
-        prestamo.setIdPrestatario(user);
-        Prestamo objSalida = prestamoService.solicitar(prestamo);
+        Date fechaInicio = getFechaDate(fecha_inicio);
+        Date fechaFin = getFechaDate(fecha_fin);
+        obj.setFechaInicio(fechaInicio);
+        obj.setFechaFin(fechaFin);
+        obj.setEstado(ESTADO_PENDIENTE);
+        obj.setIdPrestatario(user);
+        obj.setTipoCuotas("DIARIO");
+        Prestamo objSalida = prestamoService.solicitar(obj);
 
         try {
 
             return objSalida != null
-                    ? Collections.singletonMap("mensaje_ok", "Solicitud Enviada")
-                    : Collections.singletonMap("mensaje_error", "Error de Solicitud");
+                    ? Collections.singletonMap("msg_ok", "Solicitud Enviada")
+                    : Collections.singletonMap("msg_error", "Error de Solicitud");
 
         } catch (Exception e) {
             return Collections.singletonMap("msg_error", "Error de Servidor");
@@ -135,5 +143,16 @@ public class PrestamoController {
         } catch (Exception e) {
             return Collections.singletonMap("msg_error", "Error de Servidor");
         }
+    }
+
+    public static Date getFechaDate(String str) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date salida = null;
+        try {
+            salida = sdf.parse(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return salida;
     }
 }

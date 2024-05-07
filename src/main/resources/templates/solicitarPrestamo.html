@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -29,6 +29,12 @@
     <script type="text/javascript" src="/js/dataTables.bootstrap.min.js"></script>
 
     <script type="text/javascript" src="/js/bootstrap5.min.js"></script>
+    <!-- WIDGET CALENDARIO -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!--ETC-->
+    <meta name="timezone" content="America/Lima">
     <title>Grupo 9</title>
 </head>
 
@@ -105,157 +111,154 @@
 
                     <label class="col-lg-5 control-label"
                         style="display: flex; justify-content: center; margin-left: auto; margin-right: 10px;">
-                        Detalle Prestamo
+                        Datos Solicitud Prestamo
                     </label>
 
                 </div>
                 <div class="modal-body" style="padding: 20px 10px;">
-                    <form id="id_form_registra" accept-charset="UTF-8" method="post">
+                    <form id="id_form_enviar_solicitud_prestamo" accept-charset="UTF-8" method="post">
                         <div class="panel-group" id="steps">
                             <div class="panel panel-default">
                                 <!--MONTO-->
 
                                 <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="card" style="width: 18rem;">
-                                            <div class="card-header">
-                                                <label>
-                                                    Credito :
-                                                </label>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group"
-                                                        style="display: flex; width: 80%;margin-top: 5px;">
-                                                        <div class="col lg-4" style="text-align: left; width: 80%;">
-                                                            <label>
-                                                                Monto S/
-                                                            </label>
-                                                            <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text"> S/</span>
-                                                                </div>
-                                                                <input id="id_monto_pres" class="form-control"
-                                                                    type="text" readonly />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group"
-                                                        style="text-align: left;display: flex; width: 80%;margin-top: 20px;">
-
-                                                        <div class="col-lg-12">
-                                                            <label for="id_monto_diferencia">
-                                                                Diferencia S/
-                                                            </label>
-                                                            <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text"> S/</span>
-                                                                </div>
-                                                                <input id="id_monto_diferencia" class="form-control"
-                                                                    type="text" readonly />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group"
-                                                        style="text-align: left;	display: flex; width: 80%;margin-top: 20px;">
-
-                                                        <div class="col-lg-12">
-                                                            <label>
-                                                                Total a Pagar S/
-                                                            </label>
-                                                            <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text"> S/</span>
-                                                                </div>
-                                                                <input id="id_monto" class="form-control" name="monto"
-                                                                    type="text" readonly />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <!--FECHA INICIO-->
-                                                <div class="form-group"
-                                                    style="display: flex; width: 80%;margin-top: 20px;">
-                                                    <label class="col lg-1">
-                                                        Fecha Inicio
-                                                    </label>
-                                                    <div class="col lg-4">
-                                                        <input id="id_fecha" class="form-control" name="fecha_Inicio"
-                                                            type="date" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <!--FECHA FIN-->
-                                                <div class="form-group"
-                                                    style="display: flex; width: 80%;margin-top: 20px;">
-                                                    <label class="col lg-1">
-                                                        Fecha Fin
-                                                    </label>
-                                                    <div class="col lg-4">
-                                                        <input id="id_fecha_fin" class="form-control"
-                                                            name="fecha_Vencimiento" type="text" readonly />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <!--DIAS-->
-                                            <div class="form-group" style="display: flex; width: 80%;margin-top: 20px;">
-                                                <label class="col lg-1">
-                                                    Dias
-                                                </label>
-                                                <div class="col lg-4">
-                                                    <input id="id_dias" class="form-control" name="nroCuotas"
-                                                        type="text" readonly />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <!--PAGO DIARIO-->
-                                            <div class="form-group" style="display: flex; width: 80%;margin-top: 20px;">
-                                                <label class="col lg-1">
-                                                    PAGO DIARIO:
-                                                </label>
-                                                <div class="col lg-4">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"> S/</span>
-                                                        </div>
-                                                        <input id="id_pago_diario" class="form-control"
-                                                            name="montoDiario" type="text" readonly />
-
-                                                    </div>
-                                                    <p>
-                                                        <span class="texto-gris">Pagos de Lunes a Viernes</span>
-                                                    </p>
-                                                </div>
-
+                                    <div class="col-lg-12">
+                                        <!--FECHA INICIO-->
+                                        <div class="form-group" style="display: flex; width: 80%;margin-top: 20px;">
+                                            <label class="col lg-1">
+                                                Fecha Inicio
+                                            </label>
+                                            <div class="col lg-4">
+                                                <input id="id_fecha_inicio" class="form-control" name="fecha_inicio"
+                                                    type="date" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <br>
-                                <button class="btn btn-primary" id="id_btn_registra" type="button">Enviar
-                                    Solicitud</button>
 
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <!--FECHA FIN-->
+                                        <div class="form-group" style="display: flex; width: 80%;margin-top: 20px;">
+                                            <label class="col lg-1">
+                                                Fecha Fin
+                                            </label>
+                                            <div class="col lg-4">
+                                                <input id="id_fec_final" class="form-control" name="fecha_fin"
+                                                    type="text" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group" style="display: flex; width: 80%;margin-top: 20px;">
+
+                                            <div class="col-lg-4">
+                                                <label>
+                                                    Monto S/
+                                                </label>
+                                            </div>
+                                            <div class="col lg-4" style="text-align: left; width: 80%;">
+
+                                                <input id="id_monto_pres" class="form-control" type="text" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group" style="display: flex; width: 80%;margin-top: 20px;">
+                                            <div class="col-lg-5">
+                                                <label for="id_monto_diferencia">
+                                                    Diferencia S/
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <input id="id_monto_diferencia" class="form-control" type="text"
+                                                    readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group" style="	display: flex; margin-top: 20px;">
+
+                                            <div class="col-lg-4" <label>
+                                                Total a Pagar S/
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-4">
+
+                                                <input id="id_monto" class="form-control" name="monto" type="text"
+                                                    readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row">
+                                    <!--DIAS-->
+                                    <div class="form-group" style="display: flex; width: 80%;margin-top: 20px;">
+                                        <label class="col lg-1">
+                                            Dias
+                                        </label>
+                                        <div class="col lg-4">
+                                            <input id="id_dias" class="form-control" name="nroCuotas" type="text"
+                                                readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!--DIAS-->
+                                    <div class="form-group" style="display: flex; width: 80%;margin-top: 20px;">
+                                        <label class="col lg-1">
+                                            Dias L-V
+                                        </label>
+                                        <div class="col lg-4">
+                                            <input id="id_dias_lv" class="form-control" type="text" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!--PAGO DIARIO-->
+                                    <div class="form-group" style="display: flex; width: 80%;margin-top: 20px;">
+                                        <label class="col lg-1">
+                                            PAGO DIARIO:
+                                        </label>
+                                        <div class="col lg-4">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"> S/</span>
+                                                </div>
+                                                <input id="id_pago_por_dia" class="form-control" name="montoDiario"
+                                                    type="text" readonly />
+
+                                            </div>
+                                            <p>
+                                                <span class="texto-gris">calculo de pago diario sin contar sabado y
+                                                    domingos</span>
+                                                <br>
+                                                <span class="texto-gris">(Total a Pagar / Días L-V) = Pago Diario
+                                                </span>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
+                            <br>
+                            <button class="btn btn-primary" id="id_btn_solicitar_prestamo" type="button">Enviar
+                                Solicitud</button>
+
+                        </div>
                     </form>
                 </div>
             </div>
@@ -265,8 +268,9 @@
     </div>
     <script type="text/javascript">
         cargarTabla()
-        function abrirModal( dias,montoPrestado) {
+        function abrirModal(dias, montoPrestado) {
             function obtenerFechaFormateada(fecha) {
+                console.log(fecha)
                 var dia = fecha.getDate();
                 var mes = fecha.getMonth() + 1;
                 var year = fecha.getFullYear();
@@ -287,24 +291,32 @@
             }
 
             var fechaActual = new Date();
-            $("#id_fecha").val(obtenerFechaFormateada(fechaActual)); // Establecer la fecha actual en el input #id_fecha
+            $("#id_fecha_inicio").val(obtenerFechaFormateada(fechaActual)); // Establecer la fecha actual en el input #id_fecha_inicio
 
-            $("#id_fecha").on('change', function () {
+            $("#id_fecha_inicio").on('change', function () {
                 var fechaSeleccionada = new Date($(this).val());
+                console.log(fechaSeleccionada)
                 if (fechaSeleccionada < fechaActual) {
                     $(this).val(obtenerFechaFormateada(fechaActual)); // Establecer la fecha actual si se selecciona una fecha anterior
                     fechaSeleccionada = new Date($(this).val());
                 }
                 var fechaFin = new Date(fechaSeleccionada);
+                console.log(dias)
                 fechaFin.setDate(fechaFin.getDate() + dias);
-                $("#id_fecha_fin").val(obtenerFechaFormateada(fechaFin)); // Establecer la fecha de finalización
+                console.log(fechaFin)
+                $("#id_fec_final").val(obtenerFechaFormateada(fechaFin)); // Establecer la fecha de finalización
 
                 var diasHabiles = calcularDiasHabiles(fechaSeleccionada, fechaFin);
-                $("#id_pago_diario").val((montoPrestado / diasHabiles).toFixed(2));
+                console.log("aas" + diasHabiles)
+                $("#id_pago_por_dia").val((montoPrestado / diasHabiles).toFixed(2));
+                $("#id_dias_lv").val(diasHabiles + '');
             });
 
             var fechaFin = new Date(fechaActual);
+            console.log(fechaFin)
+            console.log(dias)
             fechaFin.setDate(fechaFin.getDate() + dias);
+            console.log(fechaFin)
             $("#idBuscaCliente").modal("show");
             // Redondear montoPrestado al múltiplo más cercano de 500
             var diferencia = 0
@@ -329,36 +341,11 @@
             $("#id_monto_diferencia").val(diferencia);
             $("#id_monto").val(montoPrestado);
             $("#id_dias").val(dias);
-            $("#id_fecha_fin").val(obtenerFechaFormateada(fechaFin)); // Establecer la fecha de finalización
+            $("#id_fec_final").val(obtenerFechaFormateada(fechaFin)); // Establecer la fecha de finalización
 
             var diasHabiles = calcularDiasHabiles(fechaActual, fechaFin);
-            $("#id_pago_diario").val((montoPrestado / diasHabiles).toFixed(2));
-        }
-
-
-        function accionEliminar(id) {
-            $.ajax({
-                type: "PUT",
-                url: "prestamos/solicitarPrestamo",
-                data: {
-                    "id": id
-                },
-                success: function (data) {
-                    Swal.fire({
-                        title: "Eliminado",
-                        text: data.msg_ok,
-                        icon: "success"
-                    });
-                    cargarTabla()
-                },
-                error: function () {
-                    Swal.fire({
-                        title: "Oops...",
-                        text: "Ha ocurrido un error al intentar eliminar.",
-                        icon: "error"
-                    });
-                }
-            });
+            $("#id_dias_lv").val(diasHabiles);
+            $("#id_pago_por_dia").val((montoPrestado / diasHabiles).toFixed(2));
         }
 
         function cargarTabla() {
@@ -428,11 +415,11 @@
                                 data: function (row, type, val, meta) {
 
                                     return '<button type="button"   '
-                                        + 'class="btn btn-warning " onclick="abrirModal(\''
+                                        + 'class="btn btn-warning " onclick="abrirModal('
                                         + row.dias
-                                        + '\',\''
+                                        + ','
                                         + row.monto
-                                        + '\')">Ver</button>';
+                                        + ')">Ver</button>';
                                 },
                                 className: 'text-center'
                             }
@@ -445,8 +432,31 @@
                     });
         }
 
+        $("#id_btn_solicitar_prestamo").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "prestamos/solicitaPrestamo",
+                data: $('#id_form_enviar_solicitud_prestamo').serialize(),
+                success: function (data) {
+                    if (data.msg_error) {
+                        mostrarMensajeSweetAlert("error", data.msg_error);
+                    } else {
+                        showAlertMini("success", data.msg_ok);
+                        showAlertGrande("success", "!BIEN!", data.msg_ok, "vistaPrestatario")
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "Oops...?",
+                        text: "Ha ocurrido un error al procesar la solicitud.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
     </script>
 
+    <script type="text/javascript" src="/js/alertassweet.js"></script>
     <script type="text/javascript" src="/js/navMenu.js"></script>
 </body>
 
