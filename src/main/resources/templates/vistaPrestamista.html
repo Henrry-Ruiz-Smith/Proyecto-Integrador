@@ -69,18 +69,11 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-10 col-sm-10 col-mb-3">
-                    <div class="row">
-
-                        <div class="col-md-12 col-sm-12 col-mb-3">
-                            <input class="form-control" id="id_txt_nombres" name="Nombres o Apellidos"
-                                placeholder="Nombres" type="text" maxlength="30" />
-                        </div>
-
-                    </div>
+                    
 
                 </div>
                 <div class="col-md-2 col-sm-6 col-mb-3">
-                    <div class="col-lg-2">
+                    <div class="col-lg-12">
 
                         <a href="aprobarSolicitudesPrestamo" class="btn btn-primary">
                             Ver Solicitudes Pendientes
@@ -92,7 +85,7 @@
             <div class="col-md-2 col-sm-2 col-mb-12">
                 <div class="col-md-12">
                     <a href="registrarPrestatario" class="btn btn-primary">
-                        Nuevo Prestatario
+                        CREAR Prestatario
 
                     </a>
                 </div>
@@ -155,7 +148,7 @@
         }
 
         function cargarTabla() {
-            var nombresApellidos = $("#id_txt_nombres").val()
+            var nombresApellidos = ""
             $.getJSON("buscarPrestatario", {
                 "nombresApellidos": nombresApellidos,
 
@@ -240,6 +233,16 @@
                             },
                             {
                                 data: "zona.nombre"
+                            },
+                            {
+                                data: function (row, type, val,
+                                    meta) {
+                                    var salida = '<button type="button" style="width: 90px" class="btn btn-warning btn-sm" onclick="accionEliminar(\''
+                                        + row.id
+                                        + '\')">Editar</button>';
+                                    return salida;
+                                },
+                                className: 'text-center'
                             },
                             {
                                 data: function (row, type, val,

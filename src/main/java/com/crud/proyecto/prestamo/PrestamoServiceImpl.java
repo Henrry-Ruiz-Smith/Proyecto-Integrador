@@ -1,5 +1,6 @@
 package com.crud.proyecto.prestamo;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class PrestamoServiceImpl {
     }
 
     public Prestamo solicitar(Prestamo prestamo) {
-       return prestamoRepository.save(prestamo);
+        return prestamoRepository.save(prestamo);
     }
 
     public List<MontosPrestamos> listarMontosPrestamos() {
@@ -48,7 +49,12 @@ public class PrestamoServiceImpl {
     public List<Prestamo> listarPrestamosPorIdPrestamista(Usuario prestamista) {
         return prestamoRepository.findByIdPrestatamista(prestamista);
     }
+
     public List<Prestamo> listarPrestamosPorPrestatario(Usuario prestatario) {
         return prestamoRepository.findByIdPrestatario(prestatario);
+    }
+
+    public List<Prestamo> buscarPrestamosPorNombrePrestatarioYRangoFechas(String nombre, Date fechaIni,Date fechaFi) {
+        return prestamoRepository.buscarPrestamosPorNombrePrestatarioYRangoFechas(nombre, fechaIni,fechaFi);
     }
 }

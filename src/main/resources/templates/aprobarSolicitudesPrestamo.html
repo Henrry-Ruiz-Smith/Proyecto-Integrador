@@ -69,21 +69,29 @@
     </header>
 
     <div class="container" style="margin-top: 4% ;margin-bottom: 15%">
+        <a href="vistaPrestamista">
+            Volver
+
+        </a>
         <h3>Lista Solicitudes Prestamos - Zona <span th:text="${session.usuario.zona.nombre}"></span></h3>
         <div class="col-md-12">
             <div class="col-md-2 col-sm-2 col-mb-12">
                 <div class="col-md-12">
-                    <a href="vistaPrestamista" class="btn btn-primary">
-                        Volver
 
-                    </a>
                     <div class="row">
                         <div class="col-md-10 col-sm-10 col-mb-3">
                             <div class="row">
 
                                 <div class="col-md-12 col-sm-12 col-mb-3">
-                                    <input class="form-control" id="id_txt_nombres" name="Nombres o Apellidos"
-                                        placeholder="Nombres" type="text" maxlength="30" />
+                                    <input class="form-control" id="id_txt_nombres" name="nombre"
+                                        placeholder="Nombre de Prestatario" type="text" maxlength="30" />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-mb-3">
+                                    <input class="form-control" id="id_txt_fecha_inicio" name="fecha_inicio"
+                                        type="date" />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-mb-3">
+                                    <input class="form-control" id="id_txt_fecha_fin" name="fecha_fin" type="date" />
                                 </div>
 
                             </div>
@@ -92,10 +100,7 @@
                         <div class="col-md-2 col-sm-6 col-mb-3">
                             <div class="col-lg-2">
 
-                                <a href="aprobarSolicitudesPrestamo" class="btn btn-primary">
-                                    Ver Solicitudes Pendientes
-
-                                </a>
+                                <button class="btn btn-primary" id="id_btn_buscar_prestamos">Filtrar</button>
                             </div>
                         </div>
                     </div>
@@ -307,6 +312,37 @@
     <script type="text/javascript">
         var idPrestamos = 0;
         cargarTabla()
+        function accionBuscarPrestamosPorNombrePrestatario() {
+            var nombre = $("#id_txt_nombres").val()
+            var fecha_inicio = $("#id_txt_fecha_inicio").val()
+            var fecha_fin = $("#id_txt_fecha_fin").val()
+            $.ajax({
+                type: "GET",
+                url: "prestamos/buscarPrestamosPorNombrePrestatario",
+                data: {
+                    "nombre": nombre
+                    , "fecha_inicio": fecha_inicio
+                    , "fecha_fin": fecha_fin
+                },
+                success: function (data) {
+                    $('#idBuscaCliente').modal('hide');
+                    Swal.fire({
+                        title: "PRESTAMO",
+                        text: data.msg_ok,
+                        icon: "success"
+                    });
+
+                    agregarGrilla(data.lista)
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "Oops...",
+                        text: "Ha ocurrido un error al intentar eliminar.",
+                        icon: "error"
+                    });
+                }
+            });
+        }
         function accionEliminar(id, estado) {
             var msg = ""
             if (estado == 1) {
@@ -341,6 +377,12 @@
                 }
             });
         }
+
+        $("#id_btn_buscar_prestamos").click(function () {
+            accionBuscarPrestamosPorNombrePrestatario()
+            console.log(idPrestamos)
+
+        })
         $("#id_btn_aprobar_prestamo").click(function () {
             accionEliminar(idPrestamos, 1)
             console.log(idPrestamos)

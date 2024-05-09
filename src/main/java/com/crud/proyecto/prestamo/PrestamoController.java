@@ -40,6 +40,27 @@ public class PrestamoController {
     private final Long ROL_PRESTAMISTA = 4L;
     private final Long ROL_PRESTATARIO = 5L;
 
+    @GetMapping("/buscarPrestamosPorNombrePrestatario")
+    @ResponseBody
+    public Map<String, Object> buscarPrestamosPorNombrePrestatario(HttpSession session, String nombre,
+            String fecha_inicio, String fecha_fin) {
+
+        try {
+
+            List<Prestamo> prestamos = new ArrayList<>();
+            Date fechaInicio = getFechaDate(fecha_inicio);
+            Date fechaFin = getFechaDate(fecha_fin);
+            prestamos = prestamoService.buscarPrestamosPorNombrePrestatarioYRangoFechas(nombre, fechaInicio, fechaFin);
+
+            return prestamos.size() > 0
+                    ? Collections.singletonMap("lista", prestamos)
+                    : Collections.singletonMap("msg_ok", "No hay coincidencias");
+
+        } catch (Exception e) {
+            return Collections.singletonMap("msg_error", "Error de Servidor");
+        }
+    }
+
     @GetMapping("/buscarPrestamos")
     @ResponseBody
     public Map<String, Object> buscarPrestamos(HttpSession session) {
