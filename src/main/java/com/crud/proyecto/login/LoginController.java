@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crud.proyecto.opcion.Opcion;
-import com.crud.proyecto.roles.Rol;
-import com.crud.proyecto.usuario.IUsuarioService;
-import com.crud.proyecto.usuario.Usuario;
+import com.crud.proyecto.roles.entity.Rol;
+import com.crud.proyecto.usuario.entity.Usuario;
+import com.crud.proyecto.usuario.service.IUsuarioService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

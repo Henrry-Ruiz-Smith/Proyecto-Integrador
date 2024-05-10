@@ -3,7 +3,7 @@ package com.crud.proyecto.enlaces;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.crud.proyecto.usuario.Usuario;
+import com.crud.proyecto.usuario.entity.Usuario;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
