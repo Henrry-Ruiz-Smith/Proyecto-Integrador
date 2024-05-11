@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,8 @@
     <meta http-equiv="Cache-Control" content="private" />
     <meta http-equiv="Cache-Control" content="no-store" />
     <meta http-equiv="Pragma" content="no-cache" />
+    <!--ETC-->
+    <meta name="timezone" content="America/Lima">
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -600,7 +602,17 @@
 
             idPrestamos = idPrestamo
         }
-
+        window.onload = function() {
+        // Obtener la fecha actual
+        var fechaActual = new Date();
+        
+        // Formatear la fecha como YYYY-MM-DD (formato ISO)
+        var fechaISO = fechaActual.toISOString().split('T')[0];
+        
+        // Obtener el elemento por su ID y establecer el valor de la fecha
+        document.getElementById('id_txt_fecha_inicio').value = fechaISO;
+        document.getElementById('id_txt_fecha_fin').value = fechaISO;
+    };
     </script>
 
     <script type="text/javascript" src="/js/navMenu.js"></script>
