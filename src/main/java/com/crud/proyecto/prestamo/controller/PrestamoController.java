@@ -131,6 +131,7 @@ public class PrestamoController {
         String estadoFn = estado.equalsIgnoreCase("0") ? ESTADO_RECHAZADO : ESTADO_APROBADO;
         prestamo.setEstado(estadoFn);
         prestamo.setIdPrestatamista(user);
+        prestamo.setFechaActualizacion(new Date());
         Prestamo objSalida = prestamoService.actualizarPrestamo(idLong, prestamo);
         if(objSalida.getEstado().equalsIgnoreCase(ESTADO_APROBADO)){
             cuotaService.registrarCuotas(objSalida);
