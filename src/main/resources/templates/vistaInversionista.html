@@ -111,6 +111,7 @@
                 <th style="width:	5%">Rol</th>
                 <th style="width:	5%">Password</th>
                 <th style="width:	5%">>Zona</th>
+                <th style="width:	5%">Editar</th>
                 <th style="width: 5%">Eliminar</th>
               </tr>
             </thead>
@@ -123,11 +124,11 @@
   </div>
   </div>
   <script type="text/javascript">
-    cargarTabla()
 
+    cargarTabla("")
     function accionEliminar(id) {
       $.ajax({
-        type: "DELETE",
+        type: "PUT",
         url: "eliminacionJefePrestamista",
         data: {
           "id": id
@@ -138,7 +139,7 @@
             text: data.msg_ok,
             icon: "success"
           });
-          cargarTabla()
+          cargarTabla("")
         },
         error: function () {
           Swal.fire({
@@ -149,9 +150,15 @@
         }
       });
     }
+    function accionEditar(id, nom, ape, dni, tel, cor, use, zid, pass) {
+      const url = `/actualizaJefePrestamista?id=${id}&nom=${nom}&ape=${ape}&dni=${dni}&tel=${tel}&cor=${cor}&use=${use}&zid=${zid}&pass=${pass}`;
+      window.location.href = url;
+    }
 
-    function cargarTabla() {
-      var nombresApellidos = $("#id_txt_nombres").val()
+    $("#id_btn_filtrar").click(function () {
+      cargarTabla($("#id_txt_nombres").val())
+    })
+    function cargarTabla(nombresApellidos) {
       $.getJSON("buscarJefePrestamista", {
         "nombresApellidos": nombresApellidos,
 
@@ -234,6 +241,24 @@
                 data: "contrasena"
               }, {
                 data: "zona.nombre"
+              },
+              {
+                data: function (row, type, val,
+                  meta) {
+                  var salida = '<button type="button" style="width: 90px" class="btn btn-warning btn-sm" onclick="accionEditar('
+                    + '\'' + row.id + '\','
+                    + '\'' + row.nombre + '\','
+                    + '\'' + row.apellidos + '\','
+                    + '\'' + row.dni + '\','
+                    + '\'' + row.telefono + '\','
+                    + '\'' + row.correo + '\','
+                    + '\'' + row.username + '\','
+                    + '\'' + row.zona.id + '\','
+                    + '\'' + row.contrasena + '\''
+                    + ')">Editar</button>';
+                  return salida;
+                },
+                className: 'text-center'
               },
               {
                 data: function (row, type, val,

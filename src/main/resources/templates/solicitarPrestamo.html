@@ -439,7 +439,7 @@
                 data: $('#id_form_enviar_solicitud_prestamo').serialize(),
                 success: function (data) {
                     if (data.msg_error) {
-                        mostrarMensajeSweetAlert("error", data.msg_error);
+                        showAlertGrande("error", "error¿", data.msg_error,"");
                     } else {
                         showAlertMini("success", data.msg_ok);
                         showAlertGrande("success", "!BIEN!", data.msg_ok, "vistaPrestatario")

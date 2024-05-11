@@ -1,5 +1,6 @@
 package com.crud.proyecto.prestamista.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +10,9 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,15 +38,16 @@ public class PrestamistaController {
         try {
             Usuario user = (Usuario) session.getAttribute("usuario");
 
-            List<Usuario> usuarioPrestamista = usuarioService
+            List<Usuario> usuarioPrestamista = new ArrayList<>();
+            usuarioPrestamista = usuarioService
                     .buscarUsuarioNombreYApellidoXRol(nombresApellidos, ROL_PRESTAMISTA, user);
 
             return usuarioPrestamista.isEmpty()
-                    ? Collections.singletonMap("mensaje", "No hay coincidencias")
+                    ? Collections.singletonMap("msg_error", "No hay coincidencias")
                     : Collections.singletonMap("lista", usuarioPrestamista);
 
         } catch (Exception e) {
-            return Collections.singletonMap("error", "Error de Servidor");
+            return Collections.singletonMap("msg_error", "No hay coincidencias");
         }
     }
 
@@ -119,6 +121,7 @@ public class PrestamistaController {
             return map;
         }
 
+        jp.setActivo(1);
         Rol rolJPrestamista = new Rol();
         rolJPrestamista.setId(ROL_PRESTAMISTA);
         jp.setRol(rolJPrestamista);
@@ -134,19 +137,124 @@ public class PrestamistaController {
         return map;
     }
 
-    @DeleteMapping("/eliminacionPrestamista")
+    @PostMapping("/editarPrestamista")
+    @ResponseBody
+    public Map<?, ?> editarPrestamista(@RequestParam String id, @RequestParam String nom,
+            @RequestParam String ape,
+            @RequestParam String dni,
+            @RequestParam String tel,
+            @RequestParam String cor,
+            @RequestParam String use,
+            @RequestParam String zid,
+            @RequestParam String pass,
+            HttpSession session) {
+        Long numeroComoLong = Long.parseLong(id);
+        Usuario jp = usuarioService.findById(numeroComoLong);
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        if (Validacioness.campoVacio(nom)) {
+            map.put(msg_error, "nombre vacío");
+            return map;
+        }
+        jp.setNombre(nom);
+
+        if (Validacioness.campoVacio(ape)) {
+            map.put(msg_error, " apellidos vacío");
+            return map;
+        }
+        jp.setApellidos(ape);
+
+        if (Validacioness.campoVacio(dni)) {
+            map.put(msg_error, "Dni vacío");
+            return map;
+        }
+
+        if (!Validacioness.validarDni(dni)) {
+            map.put(msg_error, "Dni Incorrecto 8 digitos");
+            return map;
+        }
+
+        if (!jp.getDni().equalsIgnoreCase(dni)) {
+            List<Usuario> listEmail = usuarioService.validarDni(dni);
+            if (listEmail.size() > 0) {
+                map.put(msg_error, "El dni ya pertenece a otro usuario");
+                return map;
+            }
+        }
+        jp.setDni(dni);
+
+        if (Validacioness.campoVacio(tel)) {
+            map.put(msg_error, "telefono vacío");
+            return map;
+        }
+        jp.setTelefono(tel);
+        if (Validacioness.campoVacio(cor)) {
+            map.put(msg_error, " E-mail vacío");
+            return map;
+        }
+
+        if (!Validacioness.validarEmail(cor)) {
+            map.put(msg_error, "Email Incorrecto");
+            return map;
+        }
+        if (!jp.getCorreo().equalsIgnoreCase(cor)) {
+            if (usuarioService.validarEmail(cor).size() > 0) {
+                map.put(msg_error, "El correo ya pertenece a otro usuario");
+                return map;
+            }
+        }
+        jp.setCorreo(cor);
+        if (zid.equals("")) {
+            map.put(msg_error, "Escoge ZonA ");
+            return map;
+        }
+        if (Validacioness.campoVacio(use)) {
+            map.put(msg_error, "Usuario Nombre Vacio");
+            return map;
+        }
+
+        if (!jp.getUsername().equalsIgnoreCase(use)) {
+            if (usuarioService.validarUserName(use).size() > 0) {
+                map.put(msg_error, "El nombre de usuario ya pertenece a otro usuario");
+                return map;
+            }
+        }
+        jp.setUsername(use);
+
+        if (Validacioness.campoVacio(pass)) {
+            map.put(msg_error, "Contrasena Vacio");
+            return map;
+        }
+
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        jp.setActivo(1);
+        Rol rolJPrestamista = new Rol();
+        rolJPrestamista.setId(ROL_PRESTAMISTA);
+        jp.setRol(rolJPrestamista);
+        Usuario salida = usuarioService.registrarUsuario(jp, ROL_PRESTAMISTA, user);
+
+        if (salida == null) {
+            map.put(msg_error, "ERROR AL REGISTRAR");
+        } else {
+
+            map.put(msg_ok, "Actualización exitosa!");
+        }
+        return map;
+    }
+
+    @PutMapping("/eliminacionPrestamista")
     @ResponseBody
     public Map<?, ?> deletePrestamista(Usuario jp, HttpSession session) {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
+        // Obtener el usuario que deseas actualizar por su ID
+        Usuario usuario = usuarioService.findById(jp.getId());
 
-        try {
-            usuarioService.delete(jp.getId());
-            map.put(msg_ok, "El  prestamista fue eliminado exitosamente.");
-        } catch (Exception e) {
-            map.put(msg_error, "Ocurrió un error al eliminar el  prestamista.");
-            e.printStackTrace(); // Manejo de errores, puedes personalizar esto según tus necesidades
-        }
+        // Cambiar el campo 'activo'
+        usuario.setActivo(0); // nuevoValor puede ser true o false dependiendo de lo que desees establecer
+
+        // Guardar el usuario actualizado en la base de datos
+        usuarioService.save(usuario);
         return map;
 
     }

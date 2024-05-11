@@ -1,6 +1,5 @@
 package com.crud.proyecto.prestatario.controller;
 
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -123,7 +122,7 @@ public class PrestatarioController {
         Rol rolJPrestatario = new Rol();
         rolJPrestatario.setId(ROL_PRESTATARIO);
         jp.setRol(rolJPrestatario);
-
+        jp.setActivo(1);
         Usuario salida = usuarioService.registrarUsuario(jp, ROL_PRESTATARIO, user);
 
         if (salida == null) {
@@ -139,7 +138,6 @@ public class PrestatarioController {
     @PostMapping("/insertPrestatarioAutonomo")
     @ResponseBody
     public Map<?, ?> insertPrestatario(Usuario jp) {
-
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         if (Validacioness.campoVacio(jp.getNombre())) {
@@ -206,7 +204,7 @@ public class PrestatarioController {
         Rol rolJPrestatario = new Rol();
         rolJPrestatario.setId(ROL_PRESTATARIO);
         jp.setRol(rolJPrestatario);
-
+        jp.setActivo(1);
         Usuario admin = new Usuario();
         admin.setId(1L);
         Usuario salida = usuarioService.registrarUsuario(jp, ROL_PRESTATARIO, admin);
@@ -216,6 +214,111 @@ public class PrestatarioController {
         } else {
 
             map.put(msg_ok, "Tu registro fue exitoso!");
+        }
+        return map;
+    }
+
+    @PostMapping("/editarPrestatario")
+    @ResponseBody
+    public Map<?, ?> editarPrestatario(@RequestParam String id, @RequestParam String nom,
+            @RequestParam String ape,
+            @RequestParam String dni,
+            @RequestParam String tel,
+            @RequestParam String cor,
+            @RequestParam String use,
+            @RequestParam String zid,
+            @RequestParam String pass,
+            HttpSession session) {
+        Long numeroComoLong = Long.parseLong(id);
+        Usuario jp = usuarioService.findById(numeroComoLong);
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        if (Validacioness.campoVacio(nom)) {
+            map.put(msg_error, "nombre vacío");
+            return map;
+        }
+        jp.setNombre(nom);
+
+        if (Validacioness.campoVacio(ape)) {
+            map.put(msg_error, " apellidos vacío");
+            return map;
+        }
+        jp.setApellidos(ape);
+
+        if (Validacioness.campoVacio(dni)) {
+            map.put(msg_error, "Dni vacío");
+            return map;
+        }
+
+        if (!Validacioness.validarDni(dni)) {
+            map.put(msg_error, "Dni Incorrecto 8 digitos");
+            return map;
+        }
+
+        if (!jp.getDni().equalsIgnoreCase(dni)) {
+            List<Usuario> listEmail = usuarioService.validarDni(dni);
+            if (listEmail.size() > 0) {
+                map.put(msg_error, "El dni ya pertenece a otro usuario");
+                return map;
+            }
+        }
+        jp.setDni(dni);
+
+        if (Validacioness.campoVacio(tel)) {
+            map.put(msg_error, "telefono vacío");
+            return map;
+        }
+        jp.setTelefono(tel);
+        if (Validacioness.campoVacio(cor)) {
+            map.put(msg_error, " E-mail vacío");
+            return map;
+        }
+
+        if (!Validacioness.validarEmail(cor)) {
+            map.put(msg_error, "Email Incorrecto");
+            return map;
+        }
+        if (!jp.getCorreo().equalsIgnoreCase(cor)) {
+            if (usuarioService.validarEmail(cor).size() > 0) {
+                map.put(msg_error, "El correo ya pertenece a otro usuario");
+                return map;
+            }
+        }
+        jp.setCorreo(cor);
+        if (zid.equals("")) {
+            map.put(msg_error, "Escoge ZonA ");
+            return map;
+        }
+        if (Validacioness.campoVacio(use)) {
+            map.put(msg_error, "Usuario Nombre Vacio");
+            return map;
+        }
+
+        if (!jp.getUsername().equalsIgnoreCase(use)) {
+            if (usuarioService.validarUserName(use).size() > 0) {
+                map.put(msg_error, "El nombre de usuario ya pertenece a otro usuario");
+                return map;
+            }
+        }
+        jp.setUsername(use);
+
+        if (Validacioness.campoVacio(pass)) {
+            map.put(msg_error, "Contrasena Vacio");
+            return map;
+        }
+
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        jp.setActivo(1);
+        Rol rolJPrestamista = new Rol();
+        rolJPrestamista.setId(ROL_PRESTATARIO);
+        jp.setRol(rolJPrestamista);
+        Usuario salida = usuarioService.registrarUsuario(jp, ROL_PRESTATARIO, user);
+
+        if (salida == null) {
+            map.put(msg_error, "ERROR AL REGISTRAR");
+        } else {
+
+            map.put(msg_ok, "Actualización exitosa!");
         }
         return map;
     }

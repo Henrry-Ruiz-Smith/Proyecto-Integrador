@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crud.proyecto.cuotas.service.ICuotaService;
 import com.crud.proyecto.prestamo.entity.MontosPrestamos;
 import com.crud.proyecto.prestamo.entity.Prestamo;
 import com.crud.proyecto.prestamo.service.PrestamoServiceImpl;
@@ -32,6 +33,8 @@ public class PrestamoController {
 
     @Autowired
     private PrestamoServiceImpl prestamoService;
+    @Autowired
+    private ICuotaService cuotaService;
 
     @Autowired
     private PrestatarioRepository prestatarioRepository;
@@ -90,6 +93,10 @@ public class PrestamoController {
     public Map<String, Object> solicitarPrestamo(@RequestParam String fecha_inicio,
             @RequestParam String fecha_fin, Prestamo obj, HttpSession session) {
         Usuario user = (Usuario) session.getAttribute("usuario");
+        List<Prestamo> prestamos = prestamoService.listarPrestamosPorPrestatarioYEstado(user,ESTADO_PENDIENTE);
+        if(prestamos.size() > 0){
+              return Collections.singletonMap("msg_error", "Tiene prestamos pendientes");
+        }
         List<Prestatario> ptario = prestatarioRepository.buscarPorPrestatario(user.getId());
         Prestatario p = ptario.get(0);
         Date fechaInicio = getFechaDate(fecha_inicio);
@@ -125,7 +132,10 @@ public class PrestamoController {
         prestamo.setEstado(estadoFn);
         prestamo.setIdPrestatamista(user);
         Prestamo objSalida = prestamoService.actualizarPrestamo(idLong, prestamo);
-
+        if(objSalida.getEstado().equalsIgnoreCase(ESTADO_APROBADO)){
+            cuotaService.registrarCuotas(objSalida);
+        }
+                
         try {
             return objSalida != null
                     ? Collections.singletonMap("msg_ok", "Solicitud " + estadoFn)

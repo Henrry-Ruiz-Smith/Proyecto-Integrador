@@ -11,6 +11,6 @@ import com.crud.proyecto.usuario.entity.Usuario;
 
 public interface JefePrestamistaRepository extends JpaRepository<JefePrestamista, JefePrestamistaPK> {
         
-    @Query("SELECT jp.jefeprestamista FROM JefePrestamista jp WHERE jp.jefePrestamistaPK.idJefePrestamista IN :idsUsuarios  AND jp.jefeprestamista.zona.id = :idZona AND jp.jefePrestamistaPK.idInversionistaCreador = :idInversionistaCreador")
-    List<Usuario> findUsuariosByJefePrestamistaIds(List<Long> idsUsuarios ,Long idZona ,Long idInversionistaCreador);
+    @Query("SELECT jp.jefeprestamista FROM JefePrestamista jp WHERE jp.jefePrestamistaPK.idJefePrestamista IN :idsUsuarios  AND jp.jefePrestamistaPK.idInversionistaCreador = :idInversionistaCreador")
+    List<Usuario> findUsuariosByJefePrestamistaIds(List<Long> idsUsuarios ,Long idInversionistaCreador);
 }

@@ -68,7 +68,7 @@
       <div class="card" style="width: 95%">
 
         <div class="card-body" style="padding: 20px 10px">
-          <form id="id_form_registra" accept-charset="UTF-8" class="form-horizontal" method="post">
+          <form id="id_form_actualiza" accept-charset="UTF-8" class="form-horizontal" method="post">
             <div class="panel-group" id="steps_reg">
 
               <!-- INICIO PANEL DATOS PRESTAMISTAS -->
@@ -92,7 +92,7 @@
                       <label class="col-lg-3 control-label" for="id_reg_ape_pat">Apellidos</label>
                       <div class="input-group col-lg-8">
                         <span class="input-group-addon"></span><input class="form-control input-sm" type="text"
-                          id="id_reg_ape_pat" name="apellidos" autocomplete="off" placeholder="Apellido Paterno" />
+                          id="id_reg_ape_pat" name="apellidos" autocomplete="off" placeholder="Apellido" />
                       </div>
                     </div>
 
@@ -130,7 +130,7 @@
                       <label class="col-lg-3 control-label" for="id_reg_zona">Zona</label>
                       <div class="input-group col-lg-8">
                         <span class="input-group-addon"></span>
-                        <select id="id_reg_zona" name="zona.id" class="form-control input-sm">
+                        <select id="id_reg_zona" name="zona.id" class="form-control input-sm" >
                           <option value="">[Seleccione]</option>
 
                         </select>
@@ -174,8 +174,8 @@
               <div class="row">
                 <div class="form-group col-md-12">
                   <div class="col-md-12" align="center">
-                    <button type="button" class="btn btn-primary " id="id_btn_registra">
-                      Guardar
+                    <button type="button" class="btn btn-primary " id="id_btn_actualiza">
+                      Actualizar
                     </button>
                   </div>
                 </div>
@@ -189,12 +189,73 @@
     </div>
   </div>
   <script type="text/javascript">
+    var idJefePrestamista = 0;
+    async function miFuncionAsincrona() {
+      return new Promise((resolve, reject) => {
+        $.getJSON("zona/listarZonas", {}, function (data) {
+          $.each(data, function (index, item) {
+            $("#id_reg_zona").append("<option value=" + item.id + ">" + item.nombre + "</option>");
+          });
+          resolve(); // Resuelve la promesa cuando se completa la solicitud AJAX
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+          reject(errorThrown); // Rechaza la promesa si hay un error en la solicitud AJAX
+        });
+      });
+    }
+    $(document).ready(async function () {
+      try {
+        await miFuncionAsincrona(); // Espera a que se complete la función asíncrona
+        console.log("Solicitud AJAX completada con éxito");
+      } catch (error) {
+        console.error("Error al realizar la solicitud AJAX:", error);
+      }
+      const urlParams = new URLSearchParams(window.location.search);
+      // Obtener los valores de los parámetros
+      const id = urlParams.get('id');
+      const nom = urlParams.get('nom');
+      const ape = urlParams.get('ape');
+      const dni = urlParams.get('dni');
+      const tel = urlParams.get('tel');
+      const cor = urlParams.get('cor');
+      const use = urlParams.get('use');
+      const zid = urlParams.get('zid');
+      const pass = urlParams.get('pass');
 
-    $("#id_btn_registra").click(function () {
+      // Asignar los valores a los campos de entrada
+      idJefePrestamista = id;
+      $('#id_reg_nombres').val(nom);
+      $('#id_reg_ape_pat').val(ape);
+      $('#id_reg_numero_documento').val(dni);
+      $('#id_reg_fijo').val(tel);
+      $('#id_reg_email').val(cor);
+      $('#id_reg_user_name').val(use);
+      $('#id_reg_user_password').val(pass);
+      $('#id_reg_zona').val(zid);
+    });
+
+    $("#id_btn_actualiza").click(function () {
+      var nom = $('#id_reg_nombres').val();
+      var ape = $('#id_reg_ape_pat').val();
+      var dni = $('#id_reg_numero_documento').val();
+      var tel = $('#id_reg_fijo').val();
+      var cor = $('#id_reg_email').val();
+      var use = $('#id_reg_user_name').val();
+      var zid = $('#id_reg_zona').val();
+      var pass = $('#id_reg_user_password').val();
       $.ajax({
         type: "POST",
-        url: "insertJefePrestamista",
-        data: $('#id_form_registra').serialize(),
+        url: "editarJefePrestamista",
+        data: {
+          id: idJefePrestamista,
+          nom: nom,
+          ape: ape,
+          dni: dni,
+          tel: tel,
+          cor: cor,
+          use: use,
+          zid: zid,
+          pass: pass,
+        },
         success: function (data) {
           if (data.msg_ok == null) {
             showAlertMini("error", data.msg_error);
@@ -209,11 +270,7 @@
       });
     });
 
-    $.getJSON("zona/listarZonas", {}, function (data) {
-      $.each(data, function (index, item) {
-        $("#id_reg_zona").append("<option value=" + item.id + ">" + item.nombre + "</option>");
-      });
-    });
+
   </script>
 
   <script type="text/javascript" src="/js/navMenu.js"></script>

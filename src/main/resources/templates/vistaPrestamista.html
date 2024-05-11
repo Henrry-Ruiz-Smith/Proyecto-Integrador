@@ -69,7 +69,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-10 col-sm-10 col-mb-3">
-                    
+
 
                 </div>
                 <div class="col-md-2 col-sm-6 col-mb-3">
@@ -77,8 +77,8 @@
 
                         <a href="aprobarSolicitudesPrestamo" class="btn btn-primary">
                             Ver Solicitudes Pendientes
-     
-                         </a>
+
+                        </a>
                     </div>
                 </div>
             </div>
@@ -120,11 +120,14 @@
     </div>
     </div>
     <script type="text/javascript">
-        cargarTabla()
-
+        cargarTabla("")
+        function accionEditar(id, nom, ape, dni, tel, cor, use, zid, pass) {
+            const url = `/actualizaPrestatario?id=${id}&nom=${nom}&ape=${ape}&dni=${dni}&tel=${tel}&cor=${cor}&use=${use}&zid=${zid}&pass=${pass}`;
+            window.location.href = url;
+        }
         function accionEliminar(id) {
             $.ajax({
-                type: "DELETE",
+                type: "PUT",
                 url: "eliminacionPrestatario",
                 data: {
                     "id": id
@@ -147,8 +150,7 @@
             });
         }
 
-        function cargarTabla() {
-            var nombresApellidos = ""
+        function cargarTabla(nombresApellidos) {
             $.getJSON("buscarPrestatario", {
                 "nombresApellidos": nombresApellidos,
 
@@ -237,9 +239,17 @@
                             {
                                 data: function (row, type, val,
                                     meta) {
-                                    var salida = '<button type="button" style="width: 90px" class="btn btn-warning btn-sm" onclick="accionEliminar(\''
-                                        + row.id
-                                        + '\')">Editar</button>';
+                                    var salida = '<button type="button" style="width: 90px" class="btn btn-warning btn-sm" onclick="accionEditar('
+                                        + '\'' + row.id + '\','
+                                        + '\'' + row.nombre + '\','
+                                        + '\'' + row.apellidos + '\','
+                                        + '\'' + row.dni + '\','
+                                        + '\'' + row.telefono + '\','
+                                        + '\'' + row.correo + '\','
+                                        + '\'' + row.username + '\','
+                                        + '\'' + row.zona.id + '\','
+                                        + '\'' + row.contrasena + '\''
+                                        + ')">Editar</button>';
                                     return salida;
                                 },
                                 className: 'text-center'

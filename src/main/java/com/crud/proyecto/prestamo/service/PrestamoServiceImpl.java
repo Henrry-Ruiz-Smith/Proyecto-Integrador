@@ -54,9 +54,18 @@ public class PrestamoServiceImpl {
         return prestamoRepository.findByIdPrestatamista(prestamista);
     }
 
+    public List<Prestamo> listarPrestamosPorPrestatarioYEstado(Usuario prestatario,String estado) {
+        return prestamoRepository.findByIdPrestatarioAndEstado(prestatario,estado);
+    }
+
     public List<Prestamo> listarPrestamosPorPrestatario(Usuario prestatario) {
         return prestamoRepository.findByIdPrestatario(prestatario);
     }
+    
+    public List<Prestamo> listarPrestamosPendientesPorPrestatario(Usuario prestatario) {
+        return prestamoRepository.findByIdPrestatario(prestatario);
+    }
+
 
     public List<Prestamo> buscarPrestamosPorNombrePrestatarioYRangoFechas(String nombre, Date fechaIni,Date fechaFi) {
         return prestamoRepository.buscarPrestamosPorNombrePrestatarioYRangoFechas(nombre, fechaIni,fechaFi);

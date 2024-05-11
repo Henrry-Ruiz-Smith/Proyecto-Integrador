@@ -3,6 +3,7 @@ package com.crud.proyecto.usuario.entity;
 import com.crud.proyecto.roles.entity.Rol;
 import com.crud.proyecto.zona.entity.Zona;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,6 +40,9 @@ public class Usuario {
 	@ManyToOne
 	@JoinColumn(name = "idZona")
 	private Zona zona;
+	
+	@Column(columnDefinition = "int default 1")
+	private int activo;
 
 	@Override
 	public String toString() {

@@ -2,6 +2,7 @@ package com.crud.proyecto.enlaces;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.crud.proyecto.usuario.entity.Usuario;
 
@@ -25,6 +26,75 @@ public class EnlacesController {
 			return "redirect:/?error";
 		}
 		return "vistaInversionista";
+	}
+
+	@GetMapping("/registrarJefePrestamista")
+	public String registrarJefePrestamista(HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+		if (usuario == null) {
+			return "redirect:/?error";
+		}
+		return "registrarJefePrestamista";
+	}
+
+	@GetMapping("/actualizaPrestatario")
+	public String actualizaPrestatario(HttpServletRequest request, @RequestParam Long id,
+			@RequestParam String nom,
+			@RequestParam String ape,
+			@RequestParam String dni,
+			@RequestParam String tel,
+			@RequestParam String cor,
+			@RequestParam String use,
+			@RequestParam String zid) {
+
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+		if (usuario == null) {
+			return "redirect:/?error";
+		}
+		return "editarPrestatario";
+	}
+
+	@GetMapping("/actualizaPrestamista")
+	public String actualizaPrestamista(HttpServletRequest request, @RequestParam Long id,
+			@RequestParam String nom,
+			@RequestParam String ape,
+			@RequestParam String dni,
+			@RequestParam String tel,
+			@RequestParam String cor,
+			@RequestParam String use,
+			@RequestParam String zid) {
+
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+		if (usuario == null) {
+			return "redirect:/?error";
+		}
+		return "editarPrestamista";
+	}
+
+	@GetMapping("/actualizaJefePrestamista")
+	public String actualizaJefePrestamista(HttpServletRequest request, @RequestParam Long id,
+			@RequestParam String nom,
+			@RequestParam String ape,
+			@RequestParam String dni,
+			@RequestParam String tel,
+			@RequestParam String cor,
+			@RequestParam String use,
+			@RequestParam String zid) {
+
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+		if (usuario == null) {
+			return "redirect:/?error";
+		}
+		return "editarJefePrestamista";
 	}
 
 	@GetMapping("/vistaJefePrestamista")
@@ -64,17 +134,6 @@ public class EnlacesController {
 	}
 
 	// Registros
-	@GetMapping("/registrarJefePrestamista")
-	public String registrarJefePrestamista(HttpServletRequest request) {
-
-		HttpSession session = request.getSession();
-		Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-		if (usuario == null) {
-			return "redirect:/?error";
-		}
-		return "registrarJefePrestamista";
-	}
 
 	// Registros
 	@GetMapping("/registrarPrestamista")

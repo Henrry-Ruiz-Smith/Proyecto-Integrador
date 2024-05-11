@@ -20,13 +20,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
         List<Usuario> findByDni(String dni);
 
-        @Query(value = "SELECT * FROM usuarios WHERE nombre LIKE %:textBusqueda% OR apellidos LIKE %:textBusqueda%", nativeQuery = true)
+        @Query(value = "SELECT * FROM usuarios WHERE nombre LIKE %:textBusqueda% OR apellidos LIKE %:textBusqueda% AND activo = 1", nativeQuery = true)
         List<Usuario> buscarUsuarioNombreYApellido(@Param("textBusqueda") String textBusqueda);
 
-        @Query(value = "SELECT u.* FROM usuarios u INNER JOIN roles r ON u.rol_id = r.id WHERE r.nombre = :nombreRol", nativeQuery = true)
+        @Query(value = "SELECT u.* FROM usuarios u INNER JOIN roles r ON u.rol_id = r.id WHERE r.nombre = :nombreRol AND u.activo = 1", nativeQuery = true)
         List<Usuario> listarUsuarioXRol(@Param("nombreRol") String nombreRol);
 
-        @Query(value = "SELECT u.* FROM usuarios u  WHERE (u.nombre LIKE %:textBusqueda% OR u.apellidos LIKE %:textBusqueda%) and u.rol_id = :idRol", nativeQuery = true)
+        @Query(value = "SELECT u.* FROM usuarios u  WHERE (u.nombre LIKE %:textBusqueda% OR u.apellidos LIKE %:textBusqueda%) and u.rol_id = :idRol AND u.activo = 1", nativeQuery = true)
         List<Usuario> buscarUsuarioNombreYApellidoXRol(@Param("textBusqueda") String textBusqueda,
                         @Param("idRol") Long idRol);
 

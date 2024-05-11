@@ -16,6 +16,7 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Long> {
 
         List<Prestamo> findByIdPrestatario(Usuario idPrestatario);
         List<Prestamo> findByIdPrestatamista(Usuario idPrestatamista);
+        List<Prestamo> findByIdPrestatarioAndEstado(Usuario idPrestatamista,String estado);
 
         @Query("SELECT p FROM Prestamo p WHERE p.idPrestatario.nombre LIKE  %:nombre%  AND p.fechaInicio >= :fechaIni AND  p.fechaInicio <= :fechaFi")
         List<Prestamo> buscarPrestamosPorNombrePrestatarioYRangoFechas(String nombre ,Date fechaIni,Date fechaFi );

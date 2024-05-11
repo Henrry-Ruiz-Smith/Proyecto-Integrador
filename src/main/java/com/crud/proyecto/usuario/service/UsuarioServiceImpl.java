@@ -137,8 +137,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
             case 2:
                 // Obtener los usuarios JefePrestamista asociados a los Inversionistas
                 return jefePrestamistaRepository.findUsuariosByJefePrestamistaIds(
-                        idsUsuarios,
-                        idUsuarioCreador.getZona().getId(), idUsuarioCreador.getId());
+                        idsUsuarios, idUsuarioCreador.getId());
             case 3:
                 // Obtener los usuarios Prestamistas asociados a los JefePrestamista
                 return prestamistaRepository.findUsuariosByPrestamistaIds(
@@ -165,55 +164,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Usuario registrarUsuario(Usuario bean, Long idRol, Usuario usarioSesion) {
+    public Usuario registrarUsuario(Usuario bean, Long idRol, Usuario usuarioSesion) {
         // Guardar el Usuario
         Usuario objSalida = usuarioRepository.save(bean);
-        // Configurar UsuarioHasRolPK
-        PermisoPK hasRolPK = new PermisoPK();
-        hasRolPK.setIdUsuario(objSalida.getId());
-        hasRolPK.setIdRol(idRol);
-
-        // Crear y guardar UsuarioHasRol
-        Permiso usuarioHasRol = new Permiso();
-        usuarioHasRol.setUsuarioHasRolPk(hasRolPK);
-        permisoRepository.save(usuarioHasRol);
-
-        // Convertir el valor long a int (teniendo en cuenta la posibilidad de pérdida
-        // de información o desbordamiento)
-        long idRola = idRol.longValue();
-        int idRolInt = (int) idRola;
-
-        switch (idRolInt) {
-            case 3:
-                JefePrestamistaPK jpPK = new JefePrestamistaPK();
-                jpPK.setIdJefePrestamista(objSalida.getId());
-                jpPK.setIdInversionistaCreador(usarioSesion.getId());
-
-                JefePrestamista jefePrestamista = new JefePrestamista();
-                jefePrestamista.setJefePrestamistaPK(jpPK);
-                jefePrestamistaRepository.save(jefePrestamista);
-                break;
-            case 4:
-                PrestamistaPK presPK = new PrestamistaPK();
-                presPK.setIdPrestamista(objSalida.getId());
-                presPK.setIdJefePrestamistaCreador(usarioSesion.getId());
-
-                Prestamista prestamista = new Prestamista();
-                prestamista.setPrestamistaPK(presPK);
-                prestamistaRepository.save(prestamista);
-                break;
-            case 5:
-                PrestatarioPK prestPK = new PrestatarioPK();
-                prestPK.setIdPrestatario(objSalida.getId());
-                prestPK.setIdPrestamistaCreador(usarioSesion.getId());
-
-                Prestatario prestatario = new Prestatario();
-                prestatario.setPrestatarioPK(prestPK);
-                prestatarioRepository.save(prestatario);
-                break;
-            default:
-                break;
-        }
+        asignarRolAUsuario(objSalida.getId(), idRol);
+        crearEntidadRelacionada(objSalida.getId(), idRol, usuarioSesion.getId());
 
         return objSalida;
     }
@@ -231,6 +186,49 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public List<Usuario> validarUserName(String username) {
         return usuarioRepository.findByUsername(username);
+    }
+
+    private void asignarRolAUsuario(Long usuarioId, Long rolId) {
+        PermisoPK hasRolPK = new PermisoPK();
+        hasRolPK.setIdUsuario(usuarioId);
+        hasRolPK.setIdRol(rolId);
+        Permiso usuarioHasRol = new Permiso();
+        usuarioHasRol.setUsuarioHasRolPk(hasRolPK);
+        permisoRepository.save(usuarioHasRol);
+    }
+
+    private void crearEntidadRelacionada(Long usuarioId, Long rolId, Long creadorId) {
+        switch (rolId.intValue()) {
+            case 3:
+                JefePrestamistaPK jpPK = new JefePrestamistaPK();
+                jpPK.setIdJefePrestamista(usuarioId);
+                jpPK.setIdInversionistaCreador(usuarioId);
+
+                JefePrestamista jefePrestamista = new JefePrestamista();
+                jefePrestamista.setJefePrestamistaPK(jpPK);
+                jefePrestamistaRepository.save(jefePrestamista);
+                break;
+            case 4:
+                PrestamistaPK presPK = new PrestamistaPK();
+                presPK.setIdPrestamista(usuarioId);
+                presPK.setIdJefePrestamistaCreador(usuarioId);
+
+                Prestamista prestamista = new Prestamista();
+                prestamista.setPrestamistaPK(presPK);
+                prestamistaRepository.save(prestamista);
+                break;
+            case 5:
+                PrestatarioPK prestPK = new PrestatarioPK();
+                prestPK.setIdPrestatario(usuarioId);
+                prestPK.setIdPrestamistaCreador(usuarioId);
+
+                Prestatario prestatario = new Prestatario();
+                prestatario.setPrestatarioPK(prestPK);
+                prestatarioRepository.save(prestatario);
+                break;
+            default:
+                break;
+        }
     }
 
 }
