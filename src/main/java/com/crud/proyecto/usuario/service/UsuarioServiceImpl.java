@@ -202,7 +202,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
             case 3:
                 JefePrestamistaPK jpPK = new JefePrestamistaPK();
                 jpPK.setIdJefePrestamista(usuarioId);
-                jpPK.setIdInversionistaCreador(usuarioId);
+                jpPK.setIdInversionistaCreador(creadorId);
 
                 JefePrestamista jefePrestamista = new JefePrestamista();
                 jefePrestamista.setJefePrestamistaPK(jpPK);
