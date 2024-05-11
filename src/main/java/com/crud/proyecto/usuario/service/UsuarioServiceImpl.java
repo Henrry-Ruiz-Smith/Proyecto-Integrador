@@ -211,7 +211,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
             case 4:
                 PrestamistaPK presPK = new PrestamistaPK();
                 presPK.setIdPrestamista(usuarioId);
-                presPK.setIdJefePrestamistaCreador(usuarioId);
+                presPK.setIdJefePrestamistaCreador(creadorId);
 
                 Prestamista prestamista = new Prestamista();
                 prestamista.setPrestamistaPK(presPK);
@@ -220,7 +220,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
             case 5:
                 PrestatarioPK prestPK = new PrestatarioPK();
                 prestPK.setIdPrestatario(usuarioId);
-                prestPK.setIdPrestamistaCreador(usuarioId);
+                prestPK.setIdPrestamistaCreador(creadorId);
 
                 Prestatario prestatario = new Prestatario();
                 prestatario.setPrestatarioPK(prestPK);
